@@ -70,7 +70,7 @@ angular.module('Pundit2.Annotators')
 })
 
 .service('ImageHandler', function(IMAGEHANDLERDEFAULTS, NameSpace, BaseComponent, Config,
-    TextFragmentHandler, XpointersHelper, Item, $compile, $timeout, $rootScope) {
+    XpointersHelper, Item, $compile, $timeout, $rootScope) {
 
     var ih = new BaseComponent('ImageHandler', IMAGEHANDLERDEFAULTS);
 
@@ -115,7 +115,7 @@ angular.module('Pundit2.Annotators')
     var getXpFromNode = function(node) {
         var range = document.createRange();
         range.selectNode(node);
-        return TextFragmentHandler.range2xpointer(range);
+        return XpointersHelper.range2xpointer(range);
     };
 
     ih.turnOn = function() {

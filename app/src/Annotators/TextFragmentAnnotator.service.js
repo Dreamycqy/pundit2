@@ -27,7 +27,6 @@ angular.module('Pundit2.Annotators')
      */
     cMenuType: 'annotatedTextFragment',
 
-    // Class to get the consolidated icon: normal consolidated fragment
     /**
      * @module punditConfig
      * @ngdoc property
@@ -37,6 +36,7 @@ angular.module('Pundit2.Annotators')
      * `string`
      *
      * Icon shown for annotation
+     * (class to get the consolidated icon: normal consolidated fragment)
      *
      * Default value:
      * <pre> annotationIconClass: 'pnd-icon-tag' </pre>
@@ -110,8 +110,8 @@ angular.module('Pundit2.Annotators')
     // Create the component and declare what we deal with: text
     var textFragmentAnnotator = new BaseComponent('TextFragmentAnnotator', TEXTFRAGMENTANNOTATORDEFAULTS);
 
-    var annomaticIsRunning = false;
-    var n = 0;
+    var annomaticIsRunning = false,
+        n = 0;
 
     // Each fragment will be split into bits, each bit will carry a relation
     // to the parent fragment through this id
@@ -234,7 +234,7 @@ angular.module('Pundit2.Annotators')
             // First we check prev sibling, if it's present and it's an element node..
             if (prev !== null && prev.nodeType === 1) {
                 jPrev = angular.element(prev);
-                // .. and if it has "pnd-cons" class we have to check if has the same fragment id(s)
+                // .. and if it has 'pnd-cons' class we have to check if has the same fragment id(s)
                 if (jPrev.hasClass(XpointersHelper.options.wrapNodeClass)) {
                     fragments = jPrev.attr('fragments');
                     if (fragments === cleanElemFragments) {
@@ -337,7 +337,7 @@ angular.module('Pundit2.Annotators')
                         }
                     });
 
-                    elem.addClass('pnd-textfragment-numbers-' + cleanElemFragments.split(",").length);
+                    elem.addClass('pnd-textfragment-numbers-' + cleanElemFragments.split(',').length);
                 }
             } else {
                 elem
@@ -358,7 +358,7 @@ angular.module('Pundit2.Annotators')
                     }
                 });
 
-                elem.addClass('pnd-textfragment-numbers-' + cleanElemFragments.split(",").length);
+                elem.addClass('pnd-textfragment-numbers-' + cleanElemFragments.split(',').length);
             }
         }
     };
@@ -571,8 +571,13 @@ angular.module('Pundit2.Annotators')
     // Called by TextFragmentIcon directives: they will be placed after each consolidated
     // fragment.
     textFragmentAnnotator.addFragmentIcon = function(icon) {
+        // TODO: avoid this call for img fragment 
+        //if  image fragment return
+        if (icon.fragment.indexOf('IMG') !== -1) {
+            return;
+        }
         if (typeof fragmentById[icon.fragment] === 'undefined') {
-            textFragmentAnnotator.err("fragmentById[" + icon.fragment + "] is undefined - skipping textFragmentAnnotator.addFragmentIcon()");
+            textFragmentAnnotator.err('fragmentById[' + icon.fragment + '] is undefined - skipping textFragmentAnnotator.addFragmentIcon()');
             return;
         }
         fragmentById[icon.fragment].icon = icon;
@@ -601,7 +606,7 @@ angular.module('Pundit2.Annotators')
             switch (action) {
                 case 'add':
                     if (typeof current === 'undefined') {
-                        textFragmentAnnotator.err("fragmentById[" + fragments[l] + "] is undefined - skipping textFragmentAnnotator.addFragmentBit()");
+                        textFragmentAnnotator.err('fragmentById[' + fragments[l] + '] is undefined - skipping textFragmentAnnotator.addFragmentBit()');
                         continue;
                     }
                     if (typeof current.bitsObj[id] === 'undefined') {
@@ -805,7 +810,7 @@ angular.module('Pundit2.Annotators')
         $compile(elementReferce)($rootScope);
     });
 
-    EventDispatcher.addListener('Consolidation.consolidateAll', function(e) {
+    EventDispatcher.addListener('Consolidation.consolidateAll', function() {
         var myItemsList = ItemsExchange.getItemsByContainer(Config.modules.MyItemsContainer.container);
         if (textFragmentAnnotator.options.addIcon === false &&
             textFragmentAnnotator.options.addOnlyMyItemsIcon) {
