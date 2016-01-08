@@ -70,9 +70,9 @@ angular.module('Pundit2.Annotators')
 })
 
 .service('ImageHandler', function(IMAGEHANDLERDEFAULTS, NameSpace, BaseComponent, Config,
-    TextFragmentHandler, XpointersHelper, Item, $compile, $timeout, $rootScope) {
+    XpointersHelper, Item, $compile, $timeout, $rootScope) {
 
-    var ih = new BaseComponent('ImageHandler', IMAGEHANDLERDEFAULTS);
+    var imageHandler = new BaseComponent('ImageHandler', IMAGEHANDLERDEFAULTS);
 
     // This function must be executed before than pundit is appended to DOM
     var timeoutPromise = null,
@@ -91,7 +91,7 @@ angular.module('Pundit2.Annotators')
     };
 
     var mouseOver = function(evt) {
-        ih.clearTimeout();
+        imageHandler.clearTimeout();
         if (el !== null && evt.target.src !== el[0].src) {
             clear();
         }
@@ -105,55 +105,43 @@ angular.module('Pundit2.Annotators')
             exist = true;
         }
     };
+    
     var mouseOut = function() {
         // remove directive after 250ms
-        ih.removeDirective();
+        imageHandler.removeDirective();
     };
-
-    angular.element('img').hover(mouseOver, mouseOut);
 
     var getXpFromNode = function(node) {
         var range = document.createRange();
         range.selectNode(node);
-        var index =0;
-        if(XpointersHelper.isWrapNode(node.parentNode)){
-            var match = node.parentNode;
-            var range2 = document.createRange();
-            node = node.parentNode.parentNode;
-            range2.selectNode(node.parentNode);
-            index = [].indexOf.call (node.children, match) + 1;
-
-        }else {
-            range.selectNode(node);
-            index = [].indexOf.call (node.parentNode.children, el.context) + 1;
-
-        }
-
+        var  index = [].indexOf.call (node.parentNode.children, el.context) + 1;
         return XpointersHelper.range2xpointer(range, index);
     };
 
-    ih.turnOn = function() {
+    angular.element('img').hover(mouseOver, mouseOut);
+
+    imageHandler.turnOn = function() {
         angular.element('img').hover(mouseOver, mouseOut);
     };
 
-    ih.turnOff = function() {
+    imageHandler.turnOff = function() {
         angular.element('img').unbind('mouseenter mouseleave');
     };
 
-    ih.clearTimeout = function() {
+    imageHandler.clearTimeout = function() {
         if (timeoutPromise !== null) {
             $timeout.cancel(timeoutPromise);
             timeoutPromise = null;
         }
     };
 
-    ih.removeDirective = function() {
+    imageHandler.removeDirective = function() {
         timeoutPromise = $timeout(function() {
             clear();
         }, 100);
     };
 
-    ih.createItemFromImage = function(img) {
+    imageHandler.createItemFromImage = function(img) {
         var values = {};
 
         values.uri = getXpFromNode(img);
@@ -162,8 +150,8 @@ angular.module('Pundit2.Annotators')
         values.image = img.src;
 
         values.label = values.description;
-        if (values.label.length > ih.options.labelMaxLength) {
-            values.label = values.label.substr(0, ih.options.labelMaxLength) + ' ..';
+        if (values.label.length > imageHandler.options.labelMaxLength) {
+            values.label = values.label.substr(0, imageHandler.options.labelMaxLength) + ' ..';
         }
 
         values.pageContext = XpointersHelper.getSafePageContext();
@@ -172,41 +160,5 @@ angular.module('Pundit2.Annotators')
         return new Item(values.uri, values);
     };
 
-        ih.wipeTemporarySelection = function() {
-            checkTemporaryConsolidated(true);
-        };
-
-        //if (ih.options.useTemporarySelection) {
-        //
-        //    EventDispatcher.addListeners([
-        //        'PndPopover.removeTemporarySelectionImg',
-        //        'TripleComposer.statementChange',
-        //        'TripleComposer.statementChanged',
-        //        'TripleComposer.reset'
-        //    ], function() {
-        //        checkTemporaryConsolidated();
-        //    });
-        //
-        //    EventDispatcher.addListeners(
-        //        [
-        //            'PndPopover.wipeTemporarySelections',
-        //            'Consolidation.startConsolidate',
-        //            'Client.hide',
-        //        ],
-        //        function() {
-        //            checkTemporaryConsolidated(true);
-        //        }
-        //    );
-        //
-        //    EventDispatcher.addListeners([
-        //        'AnnotationsCommunication.annotationSaved',
-        //        'AnnotationsCommunication.editAnnotation'
-        //    ], function() {
-        //        consolidateTemporarySelection();
-        //    });
-        //}
-
-
-        return ih;
-
-    });
+    return imageHandler;
+});

@@ -320,7 +320,7 @@ angular.module('Pundit2.AnnotationSidebar')
 .service('AnnotationSidebar', function(ANNOTATIONSIDEBARDEFAULTS, $rootScope, $filter, $timeout, $injector,
     BaseComponent, EventDispatcher, AnnotationsExchange, Annomatic, Consolidation, TypesHelper,
     BrokenHelper, ItemsExchange, NotebookExchange, TextFragmentAnnotator, NameSpace,
-    PageItemsContainer, XpointersHelper, Analytics, Config, ImageAnnotator) {
+    PageItemsContainer, XpointersHelper, Analytics, Config) {
 
     var annotationSidebar = new BaseComponent('AnnotationSidebar', ANNOTATIONSIDEBARDEFAULTS);
 
@@ -516,16 +516,14 @@ angular.module('Pundit2.AnnotationSidebar')
                     annotationSidebar.log("Something wrong with the fragments of this annotation: ", annotation);
                 }
             } else if (currentItem.isImage()) {
+                // TODO: add icon during the consolidation and get the top of the specific image
                 top = -1;
-                fragRefs = ImageAnnotator.getFragmentReferenceByUri(firstValid.uri);
-                fragRef = typeof fragRefs !== 'undefined' ? fragRefs[fragRefs.length - 1] : undefined;
+                // xpathTemp = XpointersHelper.xPointerToXPath(currentItem.uri);
+                // imgRef = angular.element(xpathTemp.startNode.firstElementChild);
 
-                if (typeof(fragRef) !== 'undefined' && typeof(fragRef.offset()) !== 'undefined') {
-                    top = fragRef.offset().top - toolbarHeight - dashboardHeight;
-                    // annotationSidebar.log("curr fr "+currentFragment + " alt "+ angular.element('.'+currentFragment).offset().top );
-                } else {
-                    annotationSidebar.log("Something wrong with the fragments of this annotation: ", annotation);
-                }
+                // if (typeof(imgRef.offset()) !== 'undefined') {
+                //     top = imgRef.offset().top - toolbarHeight - dashboardHeight;
+                // }
             } else if (currentItem.isImageFragment()) {
                 top = -1;
                 xpathTemp = XpointersHelper.xPointerToXPath(currentItem.parentItemXP);
