@@ -55,6 +55,7 @@
     <script src="../src/Annotators/XpointersHelper.service.js"></script>
     <script src="../src/Annotators/TextFragmentAnnotator.service.js"></script>
     <script src="../src/Annotators/ImageAnnotator.service.js"></script>
+    <script src="../src/Annotators/ImageBit.dir.js"></script>
     <script src="../src/Annotators/TextFragmentBit.dir.js"></script>
     <script src="../src/Annotators/TextFragmentIcon.dir.js"></script>
     <script src="../src/Annotators/TextFragmentHandler.service.js"></script>
