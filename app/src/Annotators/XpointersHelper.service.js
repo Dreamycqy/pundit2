@@ -342,7 +342,7 @@ angular.module('Pundit2.Annotators')
 
         // Skip wrap nodes into the final XPath!
         if (xpointersHelper.isWrapNode(node)) {
-            return xpointersHelper.calculateCleanXPath(node.parentNode, partialXpath);
+            return calculateCleanXPath(node.parentNode, partialXpath);
         }
 
         var sibling,
@@ -692,6 +692,14 @@ angular.module('Pundit2.Annotators')
             startNode = xpointersHelper.getNodeFromXpath(startXp.xpath),
             endNode = xpointersHelper.getNodeFromXpath(endXp.xpath);
 
+        // TODO ASAP: remove this check and avoid start or end node === null (!)
+        if (!xpointersHelper.isValidXpointer(startXp.xpointer) ||
+                startNode === null ||
+                endNode === null) {
+            xpointersHelper.err('xpath broken');
+            return false;
+        }
+
         // If start and end xpaths dont have a node number [N], we
         // are wrapping the Mth=offset child of the given node
         if (!startXp.xpath.match(/\[[0-9]+\]$/) && !endXp.xpath.match(/\[[0-9]+\]$/)) {
@@ -702,22 +710,21 @@ angular.module('Pundit2.Annotators')
             if (!xpointersHelper.isElementNode(startNode)) {
                 range.setStart(startNode, startXp.offset);
             } else {
+                // TODO: check this
+                // range.setStart(startNode, startXp.offset);
+                // range.setStartAfter(startNode); // maybe?
                 range.setStart(startNode, 0);
             }
 
             if (!xpointersHelper.isElementNode(endNode)) {
-                range.setEnd(endNode, 0);
+                range.setEnd(endNode, endXp.offset);
             } else {
                 range.setEndAfter(endNode);
             }
         }
-        if (!xpointersHelper.isValidXpointer(startXp.xpointer)) {
-            xpointersHelper.log('xpath broken');
-            return false;
-        }
+
         // Wrap the nearestisValidXpointer()ement which contains the entire range
         xpointersHelper.wrapElement(range.commonAncestorContainer, range, htmlTag, htmlClass, parents);
-
     }; // wrapXPath
 
     // Wraps childNodes of element, only those which stay inside
@@ -847,6 +854,14 @@ angular.module('Pundit2.Annotators')
             }
         };
 
+        if (element.localName === 'img') {
+            r2.selectNode(element);
+            wrapNode = xpointersHelper.createWrapNode(htmlTag, htmlClass, parents);
+            r2.surroundContents(wrapNode.element);
+
+            return;
+        }
+
         // Select correct sub-range: if the element is the start or end container of the range
         // set the boundaries accordingly: if it's startContainer use it's start offset and set
         // the end offset to element length. If it's endContainer set the start offset to 0
@@ -888,11 +903,10 @@ angular.module('Pundit2.Annotators')
             jParentElement.attr('temp-fragments', tempFragmentIds.join(','));
             jParentElement.trigger('Pundit.updateFragmentBits', modParents.join(','));
         } else {
-            //is a image node
             wrapNode = xpointersHelper.createWrapNode(htmlTag, htmlClass, modParents);
             // Finally surround the range contents with an ad-hoc crafted html element
-            r2.selectNode(element);
             r2.surroundContents(wrapNode.element);
+
             if (isTemporary) {
                 wrapNode.jElement.attr('temp-fragments', tempFragmentIds.join(','));
             }
@@ -932,7 +946,7 @@ angular.module('Pundit2.Annotators')
 
         // TODO: make this directive name configurable??
         if (parents[0].indexOf('imgf') !== -1) {
-            currentElement.attr('image-fragment-bit', '');
+            currentElement.attr('image-bit', '');
         } else {
             currentElement.attr('text-fragment-bit', '');
         }

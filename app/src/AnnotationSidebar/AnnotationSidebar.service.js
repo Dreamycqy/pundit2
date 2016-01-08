@@ -518,12 +518,12 @@ angular.module('Pundit2.AnnotationSidebar')
             } else if (currentItem.isImage()) {
                 // TODO: add icon during the consolidation and get the top of the specific image
                 top = -1;
-                xpathTemp = XpointersHelper.xPointerToXPath(currentItem.uri);
-                imgRef = angular.element(xpathTemp.startNode.firstElementChild);
+                // xpathTemp = XpointersHelper.xPointerToXPath(currentItem.uri);
+                // imgRef = angular.element(xpathTemp.startNode.firstElementChild);
 
-                if (typeof(imgRef.offset()) !== 'undefined') {
-                    top = imgRef.offset().top - toolbarHeight - dashboardHeight;
-                }
+                // if (typeof(imgRef.offset()) !== 'undefined') {
+                //     top = imgRef.offset().top - toolbarHeight - dashboardHeight;
+                // }
             } else if (currentItem.isImageFragment()) {
                 top = -1;
                 xpathTemp = XpointersHelper.xPointerToXPath(currentItem.parentItemXP);
