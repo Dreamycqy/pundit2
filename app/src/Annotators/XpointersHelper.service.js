@@ -276,32 +276,32 @@ angular.module('Pundit2.Annotators')
     // Will get a clean Range out of a dirty range: skipping nodes
     // added by the annotation library (ignore nodes) and recalculate
     // offsets if needed
-    var dirtyRange2cleanRange = function(range) {
+        var dirtyRange2cleanRange = function(range, index) {
 
-        var cleanRange = {};
+            var cleanRange = {};
 
-        xpointersHelper.log('dirty2cleanRange DIRTY: ' +
-            range.startContainer.nodeName + '[' + range.startOffset + '] > ' +
-            range.endContainer.nodeName + '[' + range.endOffset + ']');
+            xpointersHelper.log('dirty2cleanRange DIRTY: ' +
+                range.startContainer.nodeName + '[' + range.startOffset + '] > ' +
+                range.endContainer.nodeName + '[' + range.endOffset + ']');
 
-        var cleanStart = xpointersHelper.calculateCleanOffset(range.startContainer, range.startOffset),
-            cleanEnd = xpointersHelper.calculateCleanOffset(range.endContainer, range.endOffset);
+            var cleanStart = xpointersHelper.calculateCleanOffset(range.startContainer, range.startOffset, index),
+                cleanEnd = xpointersHelper.calculateCleanOffset(range.endContainer, range.endOffset, index);
 
-        cleanRange.startContainer = cleanStart.cleanContainer;
-        cleanRange.startOffset = cleanStart.cleanOffset;
+            cleanRange.startContainer = cleanStart.cleanContainer;
+            cleanRange.startOffset = cleanStart.cleanOffset;
 
-        cleanRange.endContainer = cleanEnd.cleanContainer;
-        cleanRange.endOffset = cleanEnd.cleanOffset;
+            cleanRange.endContainer = cleanEnd.cleanContainer;
+            cleanRange.endOffset = cleanEnd.cleanOffset;
 
-        cleanRange.cleanStartNumber = xpointersHelper.calculateCleanNodeNumber(cleanRange.startContainer);
-        cleanRange.cleanEndNumber = xpointersHelper.calculateCleanNodeNumber(cleanRange.endContainer);
+            cleanRange.cleanStartNumber = xpointersHelper.calculateCleanNodeNumber(cleanRange.startContainer);
+            cleanRange.cleanEndNumber = xpointersHelper.calculateCleanNodeNumber(cleanRange.endContainer);
 
-        xpointersHelper.log('dirty2cleanRange CLEAN: ' +
-            cleanRange.startContainer.nodeName + '[' + cleanRange.startOffset + '] > ' +
-            cleanRange.endContainer.nodeName + '[' + cleanRange.endOffset + ']');
+            xpointersHelper.log('dirty2cleanRange CLEAN: ' +
+                cleanRange.startContainer.nodeName + '[' + cleanRange.startOffset + '] > ' +
+                cleanRange.endContainer.nodeName + '[' + cleanRange.endOffset + ']');
 
-        return cleanRange;
-    }; // dirtyRange2cleanRange()
+            return cleanRange;
+        }; // dirtyRange2cleanRange()
 
     var correctXPathFinalNumber = function(xpath, cleanNumber) {
         return xpath.replace(/\[[0-9]+\]$/, '[' + cleanNumber + ']');
@@ -403,6 +403,7 @@ angular.module('Pundit2.Annotators')
             xpointersHelper.err('Xpointer is undefined: this should not happend!');
             return false;
         }
+        if(xpointer.indexOf('IMG') != -1){return true;}
         if (xpointer.match(/#xpointer\(start-point\(string-range\(/) === null || xpointer.match(/range-to\(string-range\(/) === null) {
             return false;
         }
@@ -922,10 +923,19 @@ angular.module('Pundit2.Annotators')
         } else {
             if (wrapNode && htmlClass === xpointersHelper.options.wrapNodeClass) {
                 //TODO: check type nodes (images?)
+                if(xpointersHelper.isImageNode(element)) {
+                    EventDispatcher.sendEvent('XpointersHelper.NodeAddedImg', {
+                        fragments: parents,
+                        reference: wrapNode.jElement
+                    });
+                } else {
                 EventDispatcher.sendEvent('XpointersHelper.NodeAdded', {
                     fragments: parents,
                     reference: wrapNode.jElement
                 });
+
+                }
+
             }
         }
     }; // wrapNode()
@@ -1001,6 +1011,16 @@ angular.module('Pundit2.Annotators')
             return false;
         }
         return node.nodeType === Node.ELEMENT_NODE;
+    };
+    xpointersHelper.isImageNode = function(node) {
+        if (!node) {
+            return false;
+        }
+        // Check: it must be an img
+        if (node.tagName !== 'IMG') {
+            return false;
+        }
+        return true;
     };
 
     // Returns true if the node is a wrap node, added by the consolidation
@@ -1120,74 +1140,101 @@ angular.module('Pundit2.Annotators')
     // used in xpointers along with xpaths to point a specific dom position.
     // If the text nodes are split, we need to correct it. If consolidation added nodes,
     // we need to check if they must be skipped
-    xpointersHelper.calculateCleanOffset = function(dirtyContainer, dirtyOffset) {
-        var parentNode = dirtyContainer.parentNode,
-            currentNode, node, offset;
+        xpointersHelper.calculateCleanOffset = function(dirtyContainer, dirtyOffset, index) {
+            var parentNode = dirtyContainer.parentNode,
+                currentNode, node, offset;
+            //// is a wrapNode and contain a img node
+            if (typeof index !== 'undefined' && xpointersHelper.isWrapNode(dirtyContainer)) {
+                return {
+                    cleanContainer: parentNode,
+                    cleanOffset: index+=dirtyOffset
+                };
+            }
+            //It's an element and it's not added by consolidation, everything is good
+            if (xpointersHelper.isElementNode(dirtyContainer) && !xpointersHelper.isConsolidationNode(dirtyContainer)) {
+                return {
+                    cleanContainer: dirtyContainer,
+                    cleanOffset: dirtyOffset
+                };
+            }
 
-        // It's an element and it's not added by consolidation, everything is good
-        if (xpointersHelper.isElementNode(dirtyContainer) && !xpointersHelper.isConsolidationNode(dirtyContainer)) {
-            return {
-                cleanContainer: dirtyContainer,
-                cleanOffset: dirtyOffset
-            };
-        }
+            if(xpointersHelper.isWrapNode(dirtyContainer)){
+                node = parentNode;
+                offset = index;
+            }
+            // The container is a text node and the parent is added by consolidation,
+            // recur into parent and let's start the offset dance
+            else if (xpointersHelper.isTextNode(dirtyContainer) && xpointersHelper.isWrapNode(parentNode)) {
+                node = parentNode;
+                // Iterate over previous siblings (to the left of this current node) and calculate
+                // the right offset. We start from the dirty one
+                offset = dirtyOffset;
 
-        // The container is a text node and the parent is added by consolidation,
-        // recur into parent and let's start the offset dance
-        if (xpointersHelper.isTextNode(dirtyContainer) && xpointersHelper.isWrapNode(parentNode)) {
-            node = parentNode;
-        } else {
-            node = dirtyContainer;
-        }
+            } else {
+                // Iterate over previous siblings (to the left of this current node) and calculate
+                // the right offset. We start from the dirty one
+                offset = dirtyOffset;
+                node = dirtyContainer;
+            }
 
-        // Iterate over previous siblings (to the left of this current node) and calculate
-        // the right offset. We start from the dirty one
-        offset = dirtyOffset;
-        while (currentNode = node.previousSibling) { // jshint ignore:line
 
-            // If the node is not added by consolidation but it's an element, we're done
-            if (!xpointersHelper.isConsolidationNode(currentNode) &&
-                xpointersHelper.isElementNode(currentNode) &&
-                !xpointersHelper.isWrapNode(currentNode)) {
-                if (xpointersHelper.isTextNode(dirtyContainer) &&
-                    xpointersHelper.isWrapNode(parentNode)) {
-                    return {
-                        cleanContainer: dirtyContainer,
-                        cleanOffset: offset
-                    };
-                } else {
-                    return {
-                        cleanContainer: node,
-                        cleanOffset: offset
-                    };
+
+            while (currentNode = node.previousSibling) { // jshint ignore:line
+
+                // If the node is not added by consolidation but it's an element, we're done
+                if (!xpointersHelper.isConsolidationNode(currentNode) &&
+                    xpointersHelper.isElementNode(currentNode) &&
+                    !xpointersHelper.isWrapNode(currentNode)) {
+                    if (xpointersHelper.isTextNode(dirtyContainer) &&
+                        xpointersHelper.isWrapNode(parentNode)) {
+                        return {
+                            cleanContainer: dirtyContainer,
+                            cleanOffset: offset
+                        };
+                    } else {
+                        return {
+                            cleanContainer: node,
+                            cleanOffset: offset
+                        };
+                    }
                 }
+
+                // If not, keep going on the offset and go to next sibling
+                if (xpointersHelper.isTextNode(currentNode)) {
+                    offset += currentNode.length;
+                } else if (xpointersHelper.isWrapNode(currentNode)) {
+                    offset += currentNode.firstChild ? currentNode.firstChild.length : 0;
+                }
+
+                node = currentNode;
+            } // while currentNode
+
+            if(typeof index !== 'undefined'){
+                return {
+                    cleanContainer: dirtyContainer,
+                    cleanOffset: offset
+                }
+            } else
+            // We iterated over every sibling, we now have the correct offset
+            if (xpointersHelper.isTextNode(dirtyContainer) && xpointersHelper.isWrapNode(parentNode)) {
+                return {
+                    cleanContainer: dirtyContainer,
+                    cleanOffset: offset
+                };
+            } else if(xpointersHelper.isImageNode(dirtyContainer) || xpointersHelper.isWrapNode(dirtyContainer)) {
+                return {
+                    cleanContainer: parentNode,
+                    cleanOffset: offset
+                }
+            } else {
+                return {
+                    cleanContainer: node,
+                    cleanOffset: offset
+                };
             }
+        }; // calculateCleanOffset()
 
-            // If not, keep going on the offset and go to next sibling
-            if (xpointersHelper.isTextNode(currentNode)) {
-                offset += currentNode.length;
-            } else if (xpointersHelper.isWrapNode(currentNode)) {
-                offset += currentNode.firstChild ? currentNode.firstChild.length : 0;
-            }
-
-            node = currentNode;
-        } // while currentNode
-
-        // We iterated over every sibling, we now have the correct offset
-        if (xpointersHelper.isTextNode(dirtyContainer) && xpointersHelper.isWrapNode(parentNode)) {
-            return {
-                cleanContainer: dirtyContainer,
-                cleanOffset: offset
-            };
-        } else {
-            return {
-                cleanContainer: node,
-                cleanOffset: offset
-            };
-        }
-    }; // calculateCleanOffset()
-
-    // The node number in an xpath /DIV[1]/P[2]/text()[16] is the number in []. It just counts
+        // The node number in an xpath /DIV[1]/P[2]/text()[16] is the number in []. It just counts
     // the number of such nodes. If the DOM is consolidated (dirty) though, we need to skip
     // those nodes and recalculate such number. Especially for text nodes, which gets
     // very likely split into more nodes, we need to count them and come out with the number
@@ -1255,25 +1302,31 @@ angular.module('Pundit2.Annotators')
             "/range-to(string-range(" + endXPath + ",''," + endOffset + ")))";
     };
 
-    xpointersHelper.range2xpointer = function(dirtyRange, index) {
-        var cleanRange = dirtyRange2cleanRange(dirtyRange),
-            cleanStartXPath = correctXPathFinalNumber(calculateCleanXPath(cleanRange.startContainer), cleanRange.cleanStartNumber),
-            cleanEndXPath = correctXPathFinalNumber(calculateCleanXPath(cleanRange.endContainer), cleanRange.cleanEndNumber);
+        xpointersHelper.range2xpointer = function(dirtyRange, index) {
+            if( index > 0){
+                var cleanRange = dirtyRange2cleanRange(dirtyRange, index);
+                var cleanxpath = calculateCleanXPath(cleanRange.startContainer, 'IMG[' + index +']');
+                var cleanStartXPath = correctXPathFinalNumber(cleanxpath, index),
+                    cleanEndXPath = correctXPathFinalNumber(cleanxpath, index);
+                var offSet = index;
+                var xpointerURL = xpointersHelper.getContentURLFromXPath(cleanStartXPath),
+                    xpointer = xpointersHelper.getXPointerString(xpointerURL, cleanStartXPath, cleanRange.startOffset, cleanEndXPath, cleanRange.endOffset);
 
-        if (typeof index !== 'undefined') {
-            cleanStartXPath += '/IMG[' + index + ']';
-            cleanEndXPath += '/IMG[' + index + ']';
-        }
+            } else {
+                var cleanRange = dirtyRange2cleanRange(dirtyRange),
+                    cleanStartXPath = correctXPathFinalNumber(calculateCleanXPath(cleanRange.startContainer), cleanRange.cleanStartNumber),
+                    cleanEndXPath = correctXPathFinalNumber(calculateCleanXPath(cleanRange.endContainer), cleanRange.cleanEndNumber);
+                var xpointerURL = xpointersHelper.getContentURLFromXPath(cleanStartXPath),
+                    xpointer = xpointersHelper.getXPointerString(xpointerURL, cleanStartXPath, cleanRange.startOffset, cleanEndXPath, cleanRange.endOffset);
+
+            }
 
 
-        var xpointerURL = xpointersHelper.getContentURLFromXPath(cleanStartXPath),
-            xpointer = xpointersHelper.getXPointerString(xpointerURL, cleanStartXPath, cleanRange.startOffset, cleanEndXPath, cleanRange.endOffset);
 
+            xpointersHelper.log('range2xpointer returning an xpointer: ' + xpointer);
 
-        xpointersHelper.log('range2xpointer returning an xpointer: ' + xpointer);
-
-        return xpointer;
-    }; // range2xpointer
+            return xpointer;
+        }; // range2xpointer
 
 
 
