@@ -275,7 +275,13 @@ angular.module('Pundit2.TripleComposer')
                 } else {
                     tripleComposer.addToSubject(item);
                 }
-                EventDispatcher.sendEvent('TripleComposer.useAsSubject', item);
+                if (typeof item.image !== 'undefined'){
+                    EventDispatcher.sendEvent('TripleComposer.useAsSubjectImg', item);
+
+                } else {
+                    EventDispatcher.sendEvent('TripleComposer.useAsSubject', item);
+
+                }
                 trackContextualEvent('useAsSubject');
             }
         });

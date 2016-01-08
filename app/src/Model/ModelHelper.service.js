@@ -234,6 +234,8 @@ angular.module('Pundit2.Model')
                             // hasSource.
                             target[NameSpace.target.hasSource] = [{
                                 "value": statementPart.isImage() ? statementPart.image : context,
+                                //"value":  context,
+
                                 "type": "uri"
                             }];
                         } else {

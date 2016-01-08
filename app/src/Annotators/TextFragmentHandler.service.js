@@ -115,7 +115,7 @@ angular.module('Pundit2.Annotators')
 
 // TODO: remove toolbar and triplecomposer dependency 
 .service('TextFragmentHandler', function($rootScope, TEXTFRAGMENTHANDLERDEFAULTS, NameSpace, BaseComponent, TextFragmentAnnotator,
-                                         XpointersHelper, Item, ItemsExchange, Toolbar, TripleComposer, Consolidation, EventDispatcher, $document, $injector, Config) {
+    XpointersHelper, Item, ItemsExchange, Toolbar, TripleComposer, Consolidation, EventDispatcher, $document, $injector, Config) {
 
     var textFragmentHandler = new BaseComponent('TextFragmentHandler', TEXTFRAGMENTHANDLERDEFAULTS);
     var clientHidden = false;
@@ -196,12 +196,7 @@ angular.module('Pundit2.Annotators')
         }
     };
 
-    // If configured to do so, removes the user's selection from the browser
-    var removeSelection = function() {
-        if (textFragmentHandler.options.removeSelectionOnAbort) {
-            $document[0].getSelection().removeAllRanges();
-        }
-    };
+
 
     // Creates a proper Item from a range .. it must be a valid range, kktnx.
     textFragmentHandler.createItemFromRange = function(range) {
@@ -221,6 +216,7 @@ angular.module('Pundit2.Annotators')
 
         return new Item(values.uri, values);
     };
+
 
     // Gets the user's selected range on the page, checking if it's valid.
     // Will return a DIRTY range: a valid range in the current DOM the user
@@ -256,6 +252,13 @@ angular.module('Pundit2.Annotators')
         checkTemporaryConsolidated(true);
     };
 
+    // If configured to do so, removes the user's selection from the browser
+    var removeSelection = function() {
+        if (textFragmentHandler.options.removeSelectionOnAbort) {
+            $document[0].getSelection().removeAllRanges();
+        }
+    };
+
     // Checks if the node (or any parent) is a node which needs to be ignored
     textFragmentHandler.isToBeIgnored = function(node) {
         var classes = textFragmentHandler.options.ignoreClasses,
@@ -278,6 +281,12 @@ angular.module('Pundit2.Annotators')
         }
         return false;
     };
+
+    // Takes a (dirty) range and returns a clean xpointer:
+    // - translate a dirty range into a clean one
+    // - correct any wrong number inside xpaths (node number, offsets)
+    // - build the xpointer starting from a named content, if present
+    // - build the xpointer strings
 
 
     textFragmentHandler.turnOn = function() {

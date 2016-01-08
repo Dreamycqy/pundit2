@@ -1,6 +1,6 @@
 angular.module('Pundit2.Annotators')
 
-.directive('textFragmentBit', function(TextFragmentAnnotator, $injector, Config, $document, $window) {
+.directive('textFragmentBit', function(TextFragmentAnnotator, ImageAnnotator, $injector, Config, $document, $window) {
     return {
         restrict: 'A',
         scope: {
@@ -92,10 +92,12 @@ angular.module('Pundit2.Annotators')
             element.on('Pundit.updateFragmentBits', function(e, data) {
                 scope.fragments = data;
                 TextFragmentAnnotator.updateFragmentBit(scope, 'update');
+                ImageAnnotator.updateFragmentBit(scope, 'update');
             });
 
             element.on('$destroy', function() {
                 TextFragmentAnnotator.updateFragmentBit(scope, 'remove');
+                ImageAnnotator.updateFragmentBit(scope, 'remove');
             });
 
         } // link()
