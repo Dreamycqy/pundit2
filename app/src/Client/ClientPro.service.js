@@ -31,7 +31,7 @@ angular.module('Pundit2.Client')
      */
     debug: false,
 
-    addDefaultKorbooEESelector: true,
+    addDefaultKorbooEESelector: false, //true
 
     /**
      * @module punditConfig
@@ -67,7 +67,7 @@ angular.module('Pundit2.Client')
      */
     bootModules: [
         'Toolbar', 'Dashboard', 'AnnotationSidebar', 'Preview',
-        'MyNotebooksContainer', 'VocabulariesContainer', 'PredicatesContainer', 'PageItemsContainer', 'MyItemsContainer',
+        'MyNotebooksContainer', 'VocabulariesContainer', 'PredicatesContainer', 'PageItemsContainer', 'MyItemsContainer', 'CoreItemsContainer',
         'NotebookComposer', 'TripleComposer'
     ],
 
@@ -257,125 +257,126 @@ angular.module('Pundit2.Client')
      * ]
      * </pre>
      */
-    basicRelations: [{
-        "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
-        "label": "comment",
-        "description": "Leave a comment related to the selected text fragment or web page.",
-        "suggestedSubjectTypes": [
-            "http://purl.org/pundit/ont/ao#fragment-image",
-            "http://purl.org/pundit/ont/ao#fragment-text",
-            "http://xmlns.com/foaf/0.1/Image",
-            "http://schema.org/WebPage"
-        ],
-        "suggestedObjectTypes": ["http://www.w3.org/2000/01/rdf-schema#Literal"],
-        "vocabulary": "Basic Relation",
-        "uri": "http://www.w3.org/2000/01/rdf-schema#comment"
-    }, {
-        "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
-        "label": "identifies",
-        "description": "The selected text fragment or web page is a representation of a linked data entity. Select the right entity as object.",
-        "suggestedSubjectTypes": [
-            "http://purl.org/pundit/ont/ao#fragment-text",
-            "http://schema.org/WebPage"
-        ],
-        "suggestedObjectTypes": [],
-        "vocabulary": "Basic Relation",
-        "uri": "http://www.w3.org/2000/01/rdf-schema#isDefinedBy"
-    }, {
-        "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
-        "label": "is related to",
-        "description": "The selected text fragment or web page is somehow related to another text fragment, work, person or linked data entity.",
-        "suggestedSubjectTypes": [
-            "http://purl.org/pundit/ont/ao#fragment-text",
-            "http://schema.org/WebPage"
-        ],
-        "suggestedObjectTypes": [],
-        "vocabulary": "Basic Relation",
-        "uri": "http://purl.org/pundit/ont/oa#isRelatedTo" // TODO Deve rispondere??? Come si fa???
-    }, {
-        "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
-        "label": "describes",
-        "description": "The selected fragment or web page describes another text fragment, work, person or linked data entity.",
-        "suggestedSubjectTypes": [
-            "http://purl.org/pundit/ont/ao#fragment-text",
-            "http://schema.org/WebPage"
-        ],
-        "suggestedObjectTypes": [],
-        "vocabulary": "Basic Relation",
-        "uri": "http://purl.org/spar/cito/describes"
-    }, {
-        "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
-        "label": "has author",
-        "description": "The selected text fragment or web page was written or created by a specific person. Select the right person as object",
-        "suggestedSubjectTypes": [
-            "http://purl.org/pundit/ont/ao#fragment-text",
-            "http://purl.org/pundit/ont/ao#fragment-image",
-            "http://xmlns.com/foaf/0.1/Image",
-            "http://schema.org/WebPage"
-        ],
-        "suggestedObjectTypes": [],
-        "vocabulary": "Basic Relation",
-        "uri": "http://purl.org/dc/terms/creator"
-    }, {
-        "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
-        "label": "has type",
-        "description": "The selected text fragment or web page has a specified type. Select the right type as object.",
-        "suggestedSubjectTypes": [
-            "http://purl.org/pundit/ont/ao#fragment-text",
-            "http://schema.org/WebPage"
-        ],
-        "suggestedObjectTypes": [],
-        "vocabulary": "Basic Relation",
-        "uri": "http://purl.org/dc/terms/type"
-    }, {
-        "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
-        "label": "replies to",
-        "description": "The selected fragment or web page is a reply to another text fragment, work, person or linked data entity.",
-        "suggestedSubjectTypes": [
-            "http://purl.org/pundit/ont/ao#fragment-text",
-            "http://schema.org/WebPage"
-        ],
-        "suggestedObjectTypes": [],
-        "vocabulary": "Basic Relation",
-        "uri": "http://purl.org/spar/cito/repliesTo"
-    }, {
-        "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
-        "label": "cites",
-        "description": "The selected text fragment or web page cites another text fragment, work or person.",
-        "suggestedSubjectTypes": [
-            "http://purl.org/pundit/ont/ao#fragment-text",
-            "http://schema.org/WebPage"
-        ],
-        "suggestedObjectTypes": [],
-        "vocabulary": "Basic Relation",
-        "uri": "http://purl.org/spar/cito/cites"
-    }, {
-        "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
-        "label": "quotes",
-        "description": "The selected text fragment or web page is a sentence from a person or a work, usually enclosed by quotations (eg: '')",
-        "suggestedSubjectTypes": [
-            "http://purl.org/pundit/ont/ao#fragment-text",
-            "http://schema.org/WebPage"
-        ],
-        "suggestedObjectTypes": [],
-        "vocabulary": "Basic Relation",
-        "uri": "http://purl.org/spar/cito/includesQuotationFrom"
-    }, {
-        "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
-        "label": "represents the date",
-        "description": "The selected text fragment corresponds to a date that can be defined by a year, a month, a day or a time. Use the calendar to select the right date as object.",
-        "suggestedSubjectTypes": ["http://purl.org/pundit/ont/ao#fragment-text"],
-        "suggestedObjectTypes": ["http://www.w3.org/2001/XMLSchema#dateTime"],
-        "vocabulary": "Basic Relation",
-        "uri": "http://purl.org/dc/terms/date"
-    }]
+    // basicRelations: [{
+    //     "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+    //     "label": "comment",
+    //     "description": "Leave a comment related to the selected text fragment or web page.",
+    //     "suggestedSubjectTypes": [
+    //         "http://purl.org/pundit/ont/ao#fragment-image",
+    //         "http://purl.org/pundit/ont/ao#fragment-text",
+    //         "http://xmlns.com/foaf/0.1/Image",
+    //         "http://schema.org/WebPage"
+    //     ],
+    //     "suggestedObjectTypes": ["http://www.w3.org/2000/01/rdf-schema#Literal"],
+    //     "vocabulary": "Basic Relation",
+    //     "uri": "http://www.w3.org/2000/01/rdf-schema#comment"
+    // }, {
+    //     "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+    //     "label": "identifies",
+    //     "description": "The selected text fragment or web page is a representation of a linked data entity. Select the right entity as object.",
+    //     "suggestedSubjectTypes": [
+    //         "http://purl.org/pundit/ont/ao#fragment-text",
+    //         "http://schema.org/WebPage"
+    //     ],
+    //     "suggestedObjectTypes": [],
+    //     "vocabulary": "Basic Relation",
+    //     "uri": "http://www.w3.org/2000/01/rdf-schema#isDefinedBy"
+    // }, {
+    //     "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+    //     "label": "is related to",
+    //     "description": "The selected text fragment or web page is somehow related to another text fragment, work, person or linked data entity.",
+    //     "suggestedSubjectTypes": [
+    //         "http://purl.org/pundit/ont/ao#fragment-text",
+    //         "http://schema.org/WebPage"
+    //     ],
+    //     "suggestedObjectTypes": [],
+    //     "vocabulary": "Basic Relation",
+    //     "uri": "http://purl.org/pundit/ont/oa#isRelatedTo" // TODO Deve rispondere??? Come si fa???
+    // }, {
+    //     "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+    //     "label": "describes",
+    //     "description": "The selected fragment or web page describes another text fragment, work, person or linked data entity.",
+    //     "suggestedSubjectTypes": [
+    //         "http://purl.org/pundit/ont/ao#fragment-text",
+    //         "http://schema.org/WebPage"
+    //     ],
+    //     "suggestedObjectTypes": [],
+    //     "vocabulary": "Basic Relation",
+    //     "uri": "http://purl.org/spar/cito/describes"
+    // }, {
+    //     "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+    //     "label": "has author",
+    //     "description": "The selected text fragment or web page was written or created by a specific person. Select the right person as object",
+    //     "suggestedSubjectTypes": [
+    //         "http://purl.org/pundit/ont/ao#fragment-text",
+    //         "http://purl.org/pundit/ont/ao#fragment-image",
+    //         "http://xmlns.com/foaf/0.1/Image",
+    //         "http://schema.org/WebPage"
+    //     ],
+    //     "suggestedObjectTypes": [],
+    //     "vocabulary": "Basic Relation",
+    //     "uri": "http://purl.org/dc/terms/creator"
+    // }, {
+    //     "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+    //     "label": "has type",
+    //     "description": "The selected text fragment or web page has a specified type. Select the right type as object.",
+    //     "suggestedSubjectTypes": [
+    //         "http://purl.org/pundit/ont/ao#fragment-text",
+    //         "http://schema.org/WebPage"
+    //     ],
+    //     "suggestedObjectTypes": [],
+    //     "vocabulary": "Basic Relation",
+    //     "uri": "http://purl.org/dc/terms/type"
+    // }, {
+    //     "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+    //     "label": "replies to",
+    //     "description": "The selected fragment or web page is a reply to another text fragment, work, person or linked data entity.",
+    //     "suggestedSubjectTypes": [
+    //         "http://purl.org/pundit/ont/ao#fragment-text",
+    //         "http://schema.org/WebPage"
+    //     ],
+    //     "suggestedObjectTypes": [],
+    //     "vocabulary": "Basic Relation",
+    //     "uri": "http://purl.org/spar/cito/repliesTo"
+    // }, {
+    //     "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+    //     "label": "cites",
+    //     "description": "The selected text fragment or web page cites another text fragment, work or person.",
+    //     "suggestedSubjectTypes": [
+    //         "http://purl.org/pundit/ont/ao#fragment-text",
+    //         "http://schema.org/WebPage"
+    //     ],
+    //     "suggestedObjectTypes": [],
+    //     "vocabulary": "Basic Relation",
+    //     "uri": "http://purl.org/spar/cito/cites"
+    // }, {
+    //     "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+    //     "label": "quotes",
+    //     "description": "The selected text fragment or web page is a sentence from a person or a work, usually enclosed by quotations (eg: '')",
+    //     "suggestedSubjectTypes": [
+    //         "http://purl.org/pundit/ont/ao#fragment-text",
+    //         "http://schema.org/WebPage"
+    //     ],
+    //     "suggestedObjectTypes": [],
+    //     "vocabulary": "Basic Relation",
+    //     "uri": "http://purl.org/spar/cito/includesQuotationFrom"
+    // }, {
+    //     "type": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+    //     "label": "represents the date",
+    //     "description": "The selected text fragment corresponds to a date that can be defined by a year, a month, a day or a time. Use the calendar to select the right date as object.",
+    //     "suggestedSubjectTypes": ["http://purl.org/pundit/ont/ao#fragment-text"],
+    //     "suggestedObjectTypes": ["http://www.w3.org/2001/XMLSchema#dateTime"],
+    //     "vocabulary": "Basic Relation",
+    //     "uri": "http://purl.org/dc/terms/date"
+    // }]
+    basicRelations: [] //hujiawei
 })
 
 // ImageAnnotator service MUST be injected before TextFragmentAnnotator
 // otherwise the image consolidation may BREAK!!!
 .service('ClientPro', function(CLIENTPRODEFAULTS, BaseComponent, Config, EventDispatcher, Analytics, MyPundit,
     ImageAnnotator, TextFragmentAnnotator, AnnotationsCommunication,
-    AnnotationsExchange, Item, ItemsExchange, MyItems, Status,
+    AnnotationsExchange, Item, ItemsExchange, MyItems, CoreItems, Status,
     TextFragmentHandler, ImageHandler, PageAnnotator, AnnotationSidebar, AnnotationDetails, ResizeManager,
     Toolbar, Annomatic, NotebookCommunication, NotebookExchange, TemplatesExchange,
     SelectorsManager, FreebaseSelector, MurucaSelector, KorboBasketSelector, Korbo2Selector, EuropeanaSelector, DbpediaSelector, GeonamesSelector, PredicateSelector,
@@ -479,6 +480,7 @@ angular.module('Pundit2.Client')
     };
 
     // Loads configured relations into some special ItemsExchange container
+    // hujiawei 加载配置的relations，即配置在vocabularies中的
     var loadConfiguredRelations = function() {
         PredicateSelector.getAllVocabularies().then(function(res) {
 
@@ -527,6 +529,7 @@ angular.module('Pundit2.Client')
         loadTemplate();
 
         MyItems.getAllItems();
+        CoreItems.getAllItems();
 
         NotebookCommunication.getMyNotebooks();
         NotebookCommunication.getCurrent();
@@ -601,6 +604,7 @@ angular.module('Pundit2.Client')
 
     // Reads the conf and initializes the active components, bootstrap what needs to be
     // bootstrapped (gets annotations, check if the user is logged in, etc)
+    // hujiawei 真正的启动过程！！！！
     client.boot = function() {
 
         fixRootNode();
@@ -625,22 +629,25 @@ angular.module('Pundit2.Client')
 
             if (value === true) {
                 MyItems.getAllItems();
+                CoreItems.getAllItems();
                 NotebookCommunication.getMyNotebooks();
                 NotebookCommunication.getCurrent();
-            } else {
-                EventDispatcher.sendEvent('Pundit.alert', {
-                    title: 'Please log in',
-                    id: "INFO",
-                    timeout: 3000,
-                    message: "<a href=\"javascript:void(0)\" data-inner-callback=\"0\">Log in or register</a> to Pundit to save your annotations and see your private notebooks.",
-                    callbacks: [
-                        function( /*alert*/ ) {
-                            MyPundit.loginWithoutSwitch();
-                            return true;
-                        }
-                    ]
-                });
             }
+            //hujiawei 去掉这部分，这部分的意义是如果用户没有登录，那么弹出提示框让用户进行登录
+            // else {
+            //     EventDispatcher.sendEvent('Pundit.alert', {
+            //         title: 'Please log in',
+            //         id: "INFO",
+            //         timeout: 3000,
+            //         message: "<a href=\"javascript:void(0)\" data-inner-callback=\"0\">Log in or register</a> to Pundit to save your annotations and see your private notebooks.",
+            //         callbacks: [
+            //             function( /*alert*/ ) {
+            //                 MyPundit.loginWithoutSwitch();
+            //                 return true;
+            //             }
+            //         ]
+            //     });
+            // }
 
             // Now that we know if we're logged in or not, we can download the right
             // annotations: auth or non-auth form the server
@@ -693,7 +700,7 @@ angular.module('Pundit2.Client')
 
     };
 
-    // TODO: find a better place for this check? 
+    // TODO: find a better place for this check?
     client.OS = '';
     if (navigator.appVersion.indexOf("Win") !== -1) {
         client.OS = "Windows";

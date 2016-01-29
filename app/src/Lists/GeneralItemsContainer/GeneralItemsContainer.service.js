@@ -10,7 +10,7 @@ angular.module('Pundit2.GeneralItemsContainer')
      * @description
      * `object`
      *
-     * Configuration object for GeneralItemsContainer module. 
+     * Configuration object for GeneralItemsContainer module.
      */
 
     /**
@@ -27,6 +27,8 @@ angular.module('Pundit2.GeneralItemsContainer')
      * <pre> myItemsType: 'myItems' </pre>
      */
     myItemsType: 'myItems',
+
+    coreItemsType: 'coreItems',
 
     /**
      * @module punditConfig
@@ -90,15 +92,16 @@ angular.module('Pundit2.GeneralItemsContainer')
 
 })
 
-.service('GeneralItemsContainer', function(GENERALITEMSCONTAINER, BaseComponent, MyItemsContainer,
+.service('GeneralItemsContainer', function(GENERALITEMSCONTAINER, BaseComponent, MyItemsContainer, CoreItemsContainer,
                                            PageItemsContainer, SelectorsManager, MyNotebooksContainer,
                                            NotebookExchange, PredicatesContainer, VocabulariesContainer,
-                                           Config, ItemsExchange, Keyboard, EventDispatcher, Preview, 
+                                           Config, ItemsExchange, Keyboard, EventDispatcher, Preview,
                                            MyPundit) {
 
     var generalItemsContainer = new BaseComponent('GeneralItemsContainer', GENERALITEMSCONTAINER);
 
     var MY_ITEMS_TYPE = generalItemsContainer.options.myItemsType;
+    var CORE_ITEMS_TYPE = generalItemsContainer.options.coreItemsType;
     var PAGE_ITEMS_TYPE = generalItemsContainer.options.pageItemsType;
     var VOCABULARIES_TYPE = generalItemsContainer.options.vocabulariesType;
     var MY_NOTEBOOKS_TYPE = generalItemsContainer.options.myNotebooksType;
@@ -108,6 +111,8 @@ angular.module('Pundit2.GeneralItemsContainer')
     generalItemsContainer.getManager = function(type) {
         if (type === MY_ITEMS_TYPE) {
             return MyItemsContainer;
+        } else if (type === CORE_ITEMS_TYPE) {
+            return CoreItemsContainer;
         } else if (type === PAGE_ITEMS_TYPE) {
             return PageItemsContainer;
         } else if (type === VOCABULARIES_TYPE) {
@@ -125,7 +130,9 @@ angular.module('Pundit2.GeneralItemsContainer')
 
         var text = '';
         if (generalItemsContainer.isMyItemsType(type)) {
-            text = 'No my items found.';
+            text = '未找到结果';//No my items found.
+        } else if (generalItemsContainer.isCoreItemsType(type)) {
+            text = '未找到结果';//No core items found.
         } else if (generalItemsContainer.isPageItemsType(type)) {
             text = 'No page items found.';
         } else if (generalItemsContainer.isVocabulariesType(type)) {
@@ -151,43 +158,97 @@ angular.module('Pundit2.GeneralItemsContainer')
         if (generalItemsContainer.isPredicatesType(type) || generalItemsContainer.isMyNotebooksType(type)) {
             return tabs;
         }
-        if (!generalItemsContainer.isVocabulariesType(type)) {
-            // tabs used to filter items list by type (all, text, image and pages)
+
+        if (generalItemsContainer.isCoreItemsType(type)) {
             tabs = [{
-                title: 'All Items',
+                title: '所有记录',
                 // this is the centralized template to items list
                 template: 'src/Lists/itemList.tmpl.html',
                 filterFunction: function() {
                     return true;
                 }
             }, {
-                title: 'Text',
+                title: '核心概念',
+                // this is the centralized template to items list
+                template: 'src/Lists/itemList.tmpl.html',
+                filterFunction: function(item) {
+                    return item.isConcept();
+                }
+            }, {
+                title: '知识体系',
+                // this is the centralized template to items list
+                template: 'src/Lists/itemList.tmpl.html',
+                filterFunction: function(item) {
+                    return item.isCategory();
+                }
+            }, {
+                title: '知识点实例',
+                template: 'src/Lists/itemList.tmpl.html',
+                filterFunction: function(item) {
+                    return item.isInstance();
+                }
+            }];
+            return tabs;
+        }
+
+        if (!generalItemsContainer.isVocabulariesType(type)) {
+            // tabs used to filter items list by type (all, text, image and pages)
+            tabs = [{
+                title: '所有记录', //All Items
+                // this is the centralized template to items list
+                template: 'src/Lists/itemList.tmpl.html',
+                filterFunction: function() {
+                    return true;
+                }
+            }, {
+                title: '核心概念',
+                // this is the centralized template to items list
+                template: 'src/Lists/itemList.tmpl.html',
+                filterFunction: function(item) {
+                    return item.isConcept();
+                }
+            }, {
+                title: '知识体系',
+                // this is the centralized template to items list
+                template: 'src/Lists/itemList.tmpl.html',
+                filterFunction: function(item) {
+                    return item.isCategory();
+                }
+            }, {
+                title: '知识点实例',
+                template: 'src/Lists/itemList.tmpl.html',
+                filterFunction: function(item) {
+                    return item.isInstance();
+                }
+            }, {
+                title: '文本', //Text
                 // this is the centralized template to items list
                 template: 'src/Lists/itemList.tmpl.html',
                 filterFunction: function(item) {
                     return item.isTextFragment();
                 }
             }, {
-                title: 'Images',
+                title: '图片', //Images
                 // this is the centralized template to items list
                 template: 'src/Lists/itemList.tmpl.html',
                 filterFunction: function(item) {
                     return item.isImage() || item.isImageFragment();
                 }
             }, {
-                title: 'Entities',
-                template: 'src/Lists/itemList.tmpl.html',
-                filterFunction: function(item) {
-                    return item.isEntity();
-                }
-            }, {
-                title: 'Pages',
+                title: '网页', //Pages
                 // this is the centralized template to items list
                 template: 'src/Lists/itemList.tmpl.html',
                 filterFunction: function(item) {
                     return item.isWebPage();
                 }
             }];
+            // {
+            //     title: '实例', //Entities
+            //     template: 'src/Lists/itemList.tmpl.html',
+            //     filterFunction: function(item) {
+            //         return item.isEntity();
+            //     }
+            // },
         } else {
             // build tabs by reading active selectors inside selectors manager
             var selectors = SelectorsManager.getActiveSelectors();
@@ -204,7 +265,7 @@ angular.module('Pundit2.GeneralItemsContainer')
 
     };
 
-    var noItemsFound = 'Oops, try again. It looks like your search didn\'t return anything.';
+    var noItemsFound = '未找到结果';//Oops, try again. It looks like your search didn\'t return anything.
 
     generalItemsContainer.getMessageText = function(type, str) {
         var text = '',
@@ -214,11 +275,20 @@ angular.module('Pundit2.GeneralItemsContainer')
             if (MyPundit.isUserLogged() === false) {
                 return 'My Items are only available to logged users. Please log in and use this section to store and use items.';
             }
-            if (items.length === 0) {
-                return 'You can add items here selecting parts of text or entities in the Linked Data panel and clicking "Add to My Items".';
+            // if (items.length === 0) {//hujiawei 不显示以下内容
+            //     return 'You can add items here selecting parts of text or entities in the Linked Data panel and clicking "Add to My Items".';
+            // }
+            if (str === '') {
+                return '未找到结果';//No item found.
+            } else {
+                return noItemsFound;
+            }
+        } else if (generalItemsContainer.isCoreItemsType(type)) {
+            if (MyPundit.isUserLogged() === false) {
+                return 'Core Items are only available to logged users. Please log in and use this section to store and use items.';
             }
             if (str === '') {
-                return 'No item found.';
+                return '未找到结果';//No item found.
             } else {
                 return noItemsFound;
             }
@@ -265,6 +335,8 @@ angular.module('Pundit2.GeneralItemsContainer')
 
         if (generalItemsContainer.isMyItemsType(type)) {
             orderLabel = 'Order my items';
+        } else if (generalItemsContainer.isCoreItemsType(type)) {
+            orderLabel = 'Order core items';
         } else if (generalItemsContainer.isPageItemsType(type)) {
             orderLabel = 'Order page items';
         } else if (generalItemsContainer.isVocabulariesType(type)) {
@@ -298,8 +370,14 @@ angular.module('Pundit2.GeneralItemsContainer')
 
         if (generalItemsContainer.isMyItemsType(type)) {
             title = 'Remove from My Items';
-            text = 'Remove';
+            text = '删除';//Remove
             action = 'remove';
+            btnClass = 'pnd-btn';
+        } else if (generalItemsContainer.isCoreItemsType(type)) {
+            title = 'Add to  My Items';
+            text = '添加到我的记录';//Add to My Items
+            action = 'add';
+            //requireLoggedUser = true;//
             btnClass = 'pnd-btn';
         } else if (generalItemsContainer.isPageItemsType(type)) {
             title = 'Add to  My Items';
@@ -350,7 +428,7 @@ angular.module('Pundit2.GeneralItemsContainer')
             return NotebookExchange.getMyNotebooks();
         } else if (generalItemsContainer.isPredicatesType(type)) {
             return ItemsExchange.getItemsByContainer(Config.modules.Client.relationsContainer);
-        } else if (generalItemsContainer.isMyItemsType(type) || generalItemsContainer.isPageItemsType(type)) {
+        } else if (generalItemsContainer.isMyItemsType(type) || generalItemsContainer.isPageItemsType(type) || generalItemsContainer.isCoreItemsType(type)) {
             var ContainerManager = generalItemsContainer.getManager(type);
             ItemsExchange.getItemsByContainer(ContainerManager.options.container);
         }
@@ -360,6 +438,10 @@ angular.module('Pundit2.GeneralItemsContainer')
 
     generalItemsContainer.isMyItemsType = function(type) {
         return type === MY_ITEMS_TYPE;
+    };
+
+    generalItemsContainer.isCoreItemsType = function(type) {
+        return type === CORE_ITEMS_TYPE;
     };
 
     generalItemsContainer.isPageItemsType = function(type) {

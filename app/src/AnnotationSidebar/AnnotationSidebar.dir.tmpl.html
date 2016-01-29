@@ -28,8 +28,8 @@
                 </div>
 
                 <!-- Button to show filters -->
-                <div 
-                    class="pnd-annotation-sidebar-filter-content" 
+                <div
+                    class="pnd-annotation-sidebar-filter-content"
                     ng-show="isAnnotationsPanelActive()"
                     ng-if="proMode">
                     <div ng-class="{'pnd-btn-sidebar-full': !annotationSidebar.needToFilter()}">
@@ -38,7 +38,7 @@
                             ng-click="annotationSidebar.toggleFiltersContent()"
                             ng-show="!isFiltersShowed"
                             class="pnd-btn pnd-btn-dark pnd-btn-fill-width pnd-annotation-sidebar-btn-show-filter">
-                                Annotations filters ({{annotationsLength}}/{{allAnnotationsLength}})
+                                <!--Annotations filters-->标注记录过滤器 ({{annotationsLength}}/{{allAnnotationsLength}})
                                 <span class="pnd-icon-caret-down"></span>
                         </button>
                     </div>
@@ -49,7 +49,7 @@
                                 ng-click="annotationSidebar.toggleFiltersContent()"
                                 type="button"
                                 class="pnd-btn pnd-btn-dark pnd-btn-fill-width pnd-annotation-sidebar-btn-close-filters">
-                            Annotations filters ({{annotationsLength}}/{{allAnnotationsLength}})
+                            <!--Annotations filters-->标注记录过滤器  ({{annotationsLength}}/{{allAnnotationsLength}})
                             <span class="pnd-icon-caret-up"></span>
                         </button>
                     </div>
@@ -288,7 +288,8 @@
                                     type="button"
                                     class="pnd-btn pnd-btn-small pnd-btn-fill-width pnd-annotation-sidebar-btn-remove-filters"
                                     ng-disabled="!annotationSidebar.needToFilter()">
-                                Reset filters
+                                <!-- Reset filters -->
+                                重置过滤器
                             </button>
 
                             <!--
@@ -313,9 +314,9 @@
 
             <div class="pnd-annotation-details-opacity" ng-show="isFiltersShowed" ng-click="annotationSidebar.toggleFiltersContent()">
             </div>
-            
+
         </div>
-        
+
         <!-- Suggestions panel -->
         <div ng-if="isSuggestionsPanelActive()">
             <div class="pnd-annotation-sidebar-annomatic" ng-show="isAnnotationSidebarExpanded">
@@ -324,19 +325,22 @@
         </div>
 
         <!-- Loading -->
-        <div 
-            class="pnd-saving-content" 
+        <div
+            class="pnd-saving-content"
             ng-show="isLoading || consolidationInProgress && isAnnotationSidebarExpanded">
             <div>
                 <!-- <span class="pnd-icon pnd-icon-refresh pnd-icon-spin pnd-icon-2x"></span> -->
-                <span class="pnd-message pnd-pulse">Showing annotations...</span>
+                <span class="pnd-message pnd-pulse">
+                  <!-- Showing annotations... -->
+                  正在加载...
+                </span>
             </div>
         </div>
 
         <!-- List of annotations -->
-        <div 
+        <div
             ng-show="isAnnotationsPanelActive()"
-            class="pnd-annotation-sidebar-annotations">         
+            class="pnd-annotation-sidebar-annotations">
             <annotation-details
                 class="pnd-annotation-details"
                 id="{{::ann.id}}"

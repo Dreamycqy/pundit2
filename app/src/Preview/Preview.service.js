@@ -29,7 +29,7 @@ angular.module('Pundit2.Preview')
      * Default value:
      * <pre> welcomeHeaderMessage: "Welcome in Pundit 2" </pre>
      */
-    welcomeHeaderMessage: "Welcome in Pundit",
+    welcomeHeaderMessage: "欢迎使用标注系统", //Welcome in Pundit
     /**
      * @module punditConfig
      * @ngdoc property
@@ -43,7 +43,9 @@ angular.module('Pundit2.Preview')
      * Default value:
      * <pre> welcomeBodyMessage: "Enjoy it" </pre>
      */
-    welcomeBodyMessage: "This is the preview panel of Pundit. Just click on an element in a list and see its details here. Enjoy using Pundit.",
+    welcomeBodyMessage: "此处是预览区域",
+    //This is the preview panel of Pundit. Just click on an element in a list and see its details here. Enjoy using Pundit.
+
     /**
      * @module punditConfig
      * @ngdoc property
@@ -86,7 +88,7 @@ angular.module('Pundit2.Preview')
      * Default value:
      * <pre> clientDashboardTabTitle: "Preview" </pre>
      */
-    clientDashboardTabTitle: "Preview"
+    clientDashboardTabTitle: "预览" //Preview
 
 })
 

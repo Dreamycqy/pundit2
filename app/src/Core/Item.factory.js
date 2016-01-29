@@ -187,6 +187,19 @@ angular.module('Pundit2.Core')
         return this.type.indexOf(NameSpace.types.page) !== -1;
     };
 
+    // hujiawei 添加几个辅助方法用于在CoreItemContainer中区别不同类型的数据
+    ItemFactory.prototype.isConcept = function() {
+        return this.type.indexOf(NameSpace.types.concept) !== -1;
+    };
+
+    ItemFactory.prototype.isCategory = function() {
+        return this.type.indexOf(NameSpace.types.category) !== -1;
+    };
+
+    ItemFactory.prototype.isInstance = function() {
+        return this.type.indexOf(NameSpace.types.instance) !== -1;
+    };
+
     // It's an entity if it's not an image, a property, a text fragment or a webpage
     ItemFactory.prototype.isEntity = function() {
         return !this.isImage() &&

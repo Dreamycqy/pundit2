@@ -1,6 +1,6 @@
-angular.module('Pundit2.MyItemsContainer')
+angular.module('Pundit2.CoreItemsContainer')
 
-.constant('MYITEMSCONTAINERDEFAULTS', {
+.constant('COREITEMSCONTAINERDEFAULTS', {
 
     /**
      * @module punditConfig
@@ -43,7 +43,7 @@ angular.module('Pundit2.MyItemsContainer')
      * Default value:
      * <pre> clientDashboardTemplate: "src/Lists/MyItemsContainer/ClientMyItemsContainer.tmpl.html" </pre>
      */
-    clientDashboardTemplate: "src/Lists/MyItemsContainer/ClientMyItemsContainer.tmpl.html",
+    clientDashboardTemplate: "src/Lists/CoreItemsContainer/ClientCoreItemsContainer.tmpl.html",
 
     /**
      * @module punditConfig
@@ -73,7 +73,7 @@ angular.module('Pundit2.MyItemsContainer')
      * Default value:
      * <pre> clientDashboardTabTitle: "My Items" </pre>
      */
-    clientDashboardTabTitle: "我的记录", //My Items
+    clientDashboardTabTitle: "知识体系", //Core Items
 
     /**
      * @module punditConfig
@@ -103,7 +103,7 @@ angular.module('Pundit2.MyItemsContainer')
      * Default value:
      * <pre> cMenuType: 'myItems' </pre>
      */
-    cMenuType: 'myItems',
+    cMenuType: 'coreItems',
 
     /**
      * @module punditConfig
@@ -148,7 +148,7 @@ angular.module('Pundit2.MyItemsContainer')
      * Default value:
      * <pre> container: 'myItems' </pre>
      */
-    container: 'myItems',
+    container: 'coreItems',
 
     /**
      * @module punditConfig
@@ -197,15 +197,15 @@ angular.module('Pundit2.MyItemsContainer')
 
 })
 
-.service('MyItemsContainer', function(MYITEMSCONTAINERDEFAULTS, BaseComponent) {
+.service('CoreItemsContainer', function(COREITEMSCONTAINERDEFAULTS, BaseComponent) {
 
-    var myItemsContainer = new BaseComponent('MyItemsContainer', MYITEMSCONTAINERDEFAULTS);
+    var coreItemsContainer = new BaseComponent('CoreItemsContainer', COREITEMSCONTAINERDEFAULTS);
 
     // array of items array, one foreach tab, when activeTab change the showed array change
     // contain all items array (all items array, text items array, image items array and page items array)
     var itemsArrays = [];
 
-    myItemsContainer.buildItemsArray = function(activeTab, tabs, items) {
+    coreItemsContainer.buildItemsArray = function(activeTab, tabs, items) {
 
         // forEach tab build the relative items array
         // using the tab filter function
@@ -222,10 +222,10 @@ angular.module('Pundit2.MyItemsContainer')
         return itemsArrays[activeTab];
     };
 
-    myItemsContainer.getItemsArrays = function() {
+    coreItemsContainer.getItemsArrays = function() {
         return itemsArrays;
     };
 
-    return myItemsContainer;
+    return coreItemsContainer;
 
 });

@@ -57,7 +57,12 @@ angular.module("Pundit2.MyItemsContainer")
      * Default value:
      * <pre> debug: false </pre>
      */
-    debug: false
+    debug: false,
+
+    /**
+    * search term
+    */
+    searchTerm: ''
 
 })
 
@@ -84,6 +89,7 @@ angular.module("Pundit2.MyItemsContainer")
             Config.modules.TextFragmentHandler.cMenuType,
             Config.modules.PageItemsContainer.cMenuType,
             Config.modules.MyItemsContainer.cMenuType,
+            Config.modules.CoreItemsContainer.cMenuType,
             Config.modules.TextFragmentAnnotator.cMenuType,
             Config.modules.ImageHandler.cMenuType,
             Config.modules.SelectorsManager.cMenuType
@@ -94,10 +100,27 @@ angular.module("Pundit2.MyItemsContainer")
             type: cMenuTypes
         });
 
+        //添加搜索功能
+        ContextualMenu.addAction({
+            name: 'searchItem',
+            type: cMenuTypes,
+            label: "搜索该文本", //
+            priority: 99,
+            showIf: function(item) {
+                return MyPundit.isUserLogged();
+            },
+            action: function(item) {
+                if (typeof(item) !== 'undefined') {//更新搜索词
+                    myItems.options.searchTerm = item.label;
+                }
+                return true;
+            }
+        });
+
         ContextualMenu.addAction({
             name: 'addToMyItems',
             type: cMenuTypes,
-            label: "Add to My Items",
+            label: "添加到我的记录", //Add to My Items
             priority: 99,
             showIf: function(item) {
                 return MyPundit.isUserLogged() &&
@@ -117,7 +140,7 @@ angular.module("Pundit2.MyItemsContainer")
         ContextualMenu.addAction({
             name: 'removeFromMyItems',
             type: cMenuTypes,
-            label: "Remove from My Items",
+            label: "从我的记录删除", //Remove from My Items
             priority: 99,
             showIf: function(item) {
                 return MyPundit.isUserLogged() &&
@@ -313,7 +336,7 @@ angular.module("Pundit2.MyItemsContainer")
 
         setLoading(true);
 
-        // update to server the new my items 
+        // update to server the new my items
         // the new my items format is different from pundit1 item format
         // this break pundit1 compatibility
         $http({

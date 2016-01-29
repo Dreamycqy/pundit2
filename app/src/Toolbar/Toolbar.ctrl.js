@@ -605,10 +605,10 @@ angular.module('Pundit2.Toolbar')
         MyPundit.closeLoginPopover();
         Analytics.track('buttons', 'click', 'toolbar--templateList');
         ResourcePanel.hide();
-    };    
+    };
 
     $scope.infoClickHandler = function() {
-        MyPundit.closeLoginPopover();
+        MyPundit.closeLoginPopover(); //TODO hujiawei 删除点击状态按钮的菜单列表功能
     };
 
     $scope.onClickNotebookDropdown = function() {

@@ -301,15 +301,17 @@ angular.module('Pundit2.Core')
      * @returns {Promise} the promise will be resolved as true when user has finished authentication and is logged in correctly, false otherwise
      *
      */
+    //hujiawei 这个方法在点击的登录的时候会被调用 -> MyPundit.login();
     myPundit.login = function(popoverPlacement) {
         return loginExecute('login', popoverPlacement, false);
     };
 
+    //hujiawei 这个方法的调用已经被屏蔽了
     myPundit.loginWithoutSwitch = function(popoverPlacement) {
         return loginExecute('login', popoverPlacement, true);
     };
 
-    // TODO remove it, remove the old login popup and manage popover in unit test 
+    // TODO remove it, remove the old login popup and manage popover in unit test
     myPundit.oldLogin = function() {
 
         loginPromise = $q.defer();

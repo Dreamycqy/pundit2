@@ -30,7 +30,7 @@ angular.module('Pundit2.Core')
      * Default value:
      * <pre> trackingCode: 'UA-XXXX-Y' </pre>
      */
-    trackingCode: 'UA-50437894-1',    
+    trackingCode: 'UA-50437894-1',
 
     /**
      * @module punditConfig
@@ -105,7 +105,7 @@ angular.module('Pundit2.Core')
      * Default value:
      * <pre> doTracking: false </pre>
      */
-    doTracking: true,
+    doTracking: false, //hujiawei true,
 
     /**
      * @module punditConfig
@@ -175,7 +175,10 @@ angular.module('Pundit2.Core')
                 ga = $window[analytics.options.globalTracker];
             };
             m.parentNode.insertBefore(a, m);
-        })($window, $document[0], 'script', '//www.google-analytics.com/analytics.js', analytics.options.globalTracker); //TODO: rimuovere http: per versione finale
+        })($window, $document[0], 'script', '/punditapp/scripts/ga.js', analytics.options.globalTracker); //TODO: rimuovere http: per versione finale
+
+        //hujiawei  //www.google-analytics.com/analytics.js
+        //上面会去加载GA，解决方案是下载ga.js，放在/script/ga目录下，替换之，显著提高页面加载速度
 
         var ga = $window[analytics.options.globalTracker];
         ga('create', analytics.options.trackingCode, {
@@ -216,7 +219,7 @@ angular.module('Pundit2.Core')
                     i = 'disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user'.split(' ');
                     for (g = 0; g < i.length; g++){
                         f(c, i[g]);
-                    }   
+                    }
                     b._i.push([a, e, d]);
                 };
                 b.__SV = 1.2;

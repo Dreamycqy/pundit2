@@ -25,7 +25,7 @@ angular.module('Pundit2.TripleComposer')
     TripleComposer.setSaving(false, $scope.name);
     $scope.textMessage = TripleComposer.options.savingMsg;
 
-    $scope.headerMessage = "Create new annotation";
+    $scope.headerMessage = "创建新的三元组";//Create new annotation
 
     // TODO find a better way to change this state
     $scope.editMode = false;
@@ -33,9 +33,9 @@ angular.module('Pundit2.TripleComposer')
         return TripleComposer.isEditMode($scope.name);
     }, function(editMode) {
         if (editMode) {
-            $scope.headerMessage = "Edit and update your annotation";
+            $scope.headerMessage = "编辑并更新三元组";//Edit and update your annotation
         } else {
-            $scope.headerMessage = "Create new annotation";
+            $scope.headerMessage = "创建新的三元组";//Create new annotation
         }
         $scope.editMode = editMode;
     });
@@ -48,7 +48,7 @@ angular.module('Pundit2.TripleComposer')
         $scope.templateMode = newVal;
         if (newVal) {
             lastHeader = $scope.headerMessage;
-            $scope.headerMessage = "Complete your annotation and save!";
+            $scope.headerMessage = "完善三元组才能保存";//Complete your annotation and save!
         } else if (newVal !== oldVal) {
             $scope.headerMessage = lastHeader;
         }

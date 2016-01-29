@@ -138,6 +138,9 @@
     <script src="../src/Lists/MyItemsContainer/MyItemsContainer.js"></script>
     <script src="../src/Lists/MyItemsContainer/MyItemsContainer.service.js"></script>
     <script src="../src/Lists/MyItemsContainer/MyItems.service.js"></script>
+    <script src="../src/Lists/CoreItemsContainer/CoreItemsContainer.js"></script>
+    <script src="../src/Lists/CoreItemsContainer/CoreItemsContainer.service.js"></script>
+    <script src="../src/Lists/CoreItemsContainer/CoreItems.service.js"></script>
     <script src="../src/Lists/PageItemsContainer/PageItemsContainer.js"></script>
     <script src="../src/Lists/PageItemsContainer/PageItemsContainer.service.js"></script>
     <script src="../src/Lists/PredicatesContainer/PredicatesContainer.js"></script>
@@ -162,7 +165,7 @@
     <script src="../src/Toolbar/Toolbar.js"></script>
     <script src="../src/Toolbar/Toolbar.dir.js"></script>
     <script src="../src/Toolbar/Toolbar.ctrl.js"></script>
-    <script src="../src/Toolbar/Toolbar.service.js"></script>    
+    <script src="../src/Toolbar/Toolbar.service.js"></script>
 
     <script src="../src/Preview/Preview.js"></script>
     <script src="../src/Preview/Preview.dir.js"></script>

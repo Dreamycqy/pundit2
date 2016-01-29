@@ -32,33 +32,40 @@
     <div class="pnd-panel-tab-content-footer" ng-hide="useInKorbo">
         <button
             class="pnd-btn pnd-btn-transparent pnd-dashboard-preview-clear-sticky-button"
-            ng-click="clearSticky()" 
+            ng-click="clearSticky()"
             ng-class="{disabled: !isStickyItem()}">
-            Clear preview
-        </button><button
+            <!-- Clear preview -->
+            清空预览
+        </button>
+        <button
             class="pnd-btn pnd-dashboard-preview-more-info-button"
-            ng-if="itemDashboardPreview.isProperty() || itemDashboardPreview.isEntity()" 
-            ng-click="openUrl(itemDashboardPreview.uri)" 
+            ng-if="itemDashboardPreview.isProperty() || itemDashboardPreview.isEntity()"
+            ng-click="openUrl(itemDashboardPreview.uri)"
             ng-class="{disabled: !isStickyItem()}">
-            More info
-        </button><button
+            <!-- More info -->
+            更多信息
+        </button>
+        <button
             class="pnd-btn"
             ng-if="itemDashboardPreview.isWebPage()"
             ng-click="openUrl(itemDashboardPreview.uri)"
             ng-class="{disabled: !isStickyItem()}">
-            Go to page
-        </button><button
+            <!-- Go to page -->
+            进入页面
+        </button>
+        <button
             class="pnd-btn pnd-dashboard-preview-more-info-button"
-            ng-if="isNotebook() && askThePundit" 
-            ng-click="openNotebookUrl(itemDashboardPreview.id)" 
+            ng-if="isNotebook() && askThePundit"
+            ng-click="openNotebookUrl(itemDashboardPreview.id)"
             ng-class="{disabled: !isStickyItem()}">
-            More info
+            <!-- More info -->
+            更多信息
         </button>
 
         <!-- Open image -->
-        <!-- <button 
-            class="btn btn-link btn-xs pnd-btn-full pnd-dashboard-preview-external-modal-button" 
-            ng-class="{disabled: !isStickyItem()}" 
+        <!-- <button
+            class="btn btn-link btn-xs pnd-btn-full pnd-dashboard-preview-external-modal-button"
+            ng-class="{disabled: !isStickyItem()}"
             ng-if="itemIsAnImage">
             <span class="pnd-icon pnd-icon-external-link"></span>
         </button> -->

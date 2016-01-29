@@ -1,10 +1,11 @@
 angular.module('Pundit2.GeneralItemsContainer')
 
 .controller('GeneralItemsContainerCtrl', function($scope, $rootScope, $modal, $timeout, $element, $injector, $q,
-    GeneralItemsContainer, ItemsExchange, MyItems, MyPundit, NotebookComposer, Preview, TypesHelper, PageHandler,
-    TripleComposer, XpointersHelper, SelectorsManager, EventDispatcher, Status, Analytics) {
+    GeneralItemsContainer, ItemsExchange, MyItems, CoreItems, MyPundit, NotebookComposer, Preview, TypesHelper, PageHandler,
+    TripleComposer, XpointersHelper, SelectorsManager, EventDispatcher, Status, Analytics, NameSpace, Item) {
 
     $scope.isMyItems = GeneralItemsContainer.isMyItemsType($scope.type);
+    $scope.isCoreItems = GeneralItemsContainer.isCoreItemsType($scope.type);
     $scope.isMyPageItems = GeneralItemsContainer.isPageItemsType($scope.type);
     $scope.isVocabularies = GeneralItemsContainer.isVocabulariesType($scope.type);
     $scope.isMyNotebooks = GeneralItemsContainer.isMyNotebooksType($scope.type);
@@ -78,7 +79,7 @@ angular.module('Pundit2.GeneralItemsContainer')
 
     // sort button dropdown content
     $scope.dropdownOrdering = [{
-        text: 'Order by label asc',
+        text: '名称升序', //Order by label asc
         click: function() {
             order = 'label';
             $scope.reverse = false;
@@ -90,7 +91,7 @@ angular.module('Pundit2.GeneralItemsContainer')
         },
         isActive: order === 'label' && $scope.reverse === false
     }, {
-        text: 'Order by label desc',
+        text: '名称降序', //Order by label desc
         click: function() {
             order = 'label';
             $scope.reverse = true;
@@ -105,7 +106,7 @@ angular.module('Pundit2.GeneralItemsContainer')
 
     if (!$scope.isMyNotebooks && !$scope.isPredicates) {
         $scope.dropdownOrdering.push({
-            text: 'Order by type asc',
+            text: '类型升序', //Order by type asc
             click: function() {
                 //TODO: condition not in vocabularies
                 if (!$scope.isVocabularies && $scope.dropdownOrdering[2].disable) {
@@ -122,7 +123,7 @@ angular.module('Pundit2.GeneralItemsContainer')
             isActive: order === 'type' && $scope.reverse === false
         });
         $scope.dropdownOrdering.push({
-            text: 'Order by type desc',
+            text: '类型降序', //Order by type desc
             click: function() {
                 //TODO: condition not in vocabularies
                 if (!$scope.isVocabularies && $scope.dropdownOrdering[3].disable) {
@@ -172,7 +173,7 @@ angular.module('Pundit2.GeneralItemsContainer')
         return str.replace(/ /g, '');
     };
 
-    // getter function used inside template to order items 
+    // getter function used inside template to order items
     // returns the items property value used to order
     $scope.getOrderProperty = function(item) {
 
@@ -247,6 +248,8 @@ angular.module('Pundit2.GeneralItemsContainer')
             onClickUsePredicate();
         } else if ($scope.isMyItems) {
             onClickRemove();
+        } else if ($scope.isCoreItems) {
+            onClickAdd();//hujiawei 添加到我的记录
         } else {
             onClickAdd();
         }
@@ -395,7 +398,7 @@ angular.module('Pundit2.GeneralItemsContainer')
             "divider": true
         });
         $scope.dropdownOrdering.push({
-            text: 'Add web page to My Items',
+            text: '添加当前页面到我的记录中', //Add web page to My Items
             click: function() {
                 //var item = PageHandler.createItemFromPage();
                 if (MyPundit.isUserLogged() && !isCurrentPageInMyItems()) {
@@ -406,6 +409,19 @@ angular.module('Pundit2.GeneralItemsContainer')
             },
             isActive: false,
             disable: !MyPundit.isUserLogged() || isCurrentPageInMyItems()
+        });
+
+        $scope.dropdownOrdering.push({
+            text: '使用当前搜索词新建主语', //
+            click: function() {
+                if (MyPundit.isUserLogged() && typeof($scope.search.term) !== 'undefined' && $scope.search.term !== '') {
+                    $scope.onClickAddNewMyItem();
+                    $scope.dropdownOrdering[$scope.dropdownOrdering.length - 1].disable = true;
+                }
+                $scope.dropdownOrdering[$scope.dropdownOrdering.length - 1].disable = true;
+            },
+            isActive: false,
+            disable: !MyPundit.isUserLogged()
         });
 
 
@@ -441,6 +457,37 @@ angular.module('Pundit2.GeneralItemsContainer')
                 Analytics.track('buttons', 'click', eventLabel);
             }
         };
+
+        // add search term to my items
+        $scope.onClickAddNewMyItem = function() {
+            if (!MyPundit.isUserLogged()) {
+                ContainerManager.err('User not logged');
+            } else {
+                var item = createItemFromSearch();
+                MyItems.addItem(item);
+
+                // var eventLabel = getHierarchyString();
+                // eventLabel += "--addPageToMyItems";
+                // Analytics.track('buttons', 'click', eventLabel);
+            }
+        };
+
+        var createItemFromSearch = function() {
+            var values = {};
+            //values = getPageMetadata();
+            values.uri = XpointersHelper.getSafePageContext()+"#xpointer#"+$scope.search.term;
+            values.isPartOf = XpointersHelper.getSafePageContext();
+            values.pageContext = XpointersHelper.getSafePageContext();
+            values.label = $scope.search.term;
+            if (typeof(values.description) === 'undefined') {
+                values.description = values.label;
+            }
+            values.type = [NameSpace.fragments.text];
+            // item.rdfData = semlibItems.createBucketForPage(item).bucket;
+
+            return new Item(values.uri, values);
+        };
+
     }
 
     if ($scope.isMyPageItems || $scope.isVocabularies) {
@@ -663,10 +710,23 @@ angular.module('Pundit2.GeneralItemsContainer')
                 });
             }
 
+            //TODO hujiawei $scope.displayedItems 为了界面的快速响应！但是不足在于没法显示之后的搜索结果！
+            $scope.displayedItems = $scope.displayedItems.slice(0,10);
+
             // update text messagge
             $scope.message.text = GeneralItemsContainer.getMessageText($scope.type, str);
 
         };
     }
+
+    /*hujiawei 添加的搜索功能*/
+    //监听coreItems中的searchTerm字段，使得myitems中的搜索词和coreitems中的搜索词保持一致
+    $scope.$watch(function() {
+        return MyItems.options.searchTerm;
+    }, function(term){
+        if (typeof(term)!=='undefined' && term != $scope.search.term) {
+            $scope.search.term = term;
+        }
+    }, true);
 
 });

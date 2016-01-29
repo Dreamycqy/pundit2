@@ -6,26 +6,27 @@
             <div>
                 <!-- Subject buttons -->
                 <div class="pnd-row-button-subject" ng-if="!subjectFound">
-                    <span 
+                    <span
                         ng-if="templateMode"
                         class="pnd-statement-label pnd-statement-subject-text pnd-statement-tmpl-mode">
                             Select some text on the page
                     </span>
                     <span
-                        ng-if="!templateMode" 
-                        class="pnd-statement-label" 
+                        ng-if="!templateMode"
+                        class="pnd-statement-label"
                         ng-click="onClickSubject($event)">
-                            Add a subject
+                            <!-- Add a subject -->
+                            选择主语
                     </span>
                 </div>
 
-                <div 
+                <div
                     class="pnd-row-button-subject pnd-statement-found"
                     ng-class="{'pnd-statement-icon-one': !templateMode && !subjectFixed}"
                     ng-if="subjectFound">
-                    <span 
-                        class="pnd-statement-label" 
-                        ng-mouseover="onSubjectMouseOver()" 
+                    <span
+                        class="pnd-statement-label"
+                        ng-mouseover="onSubjectMouseOver()"
                         ng-mouseleave="onItemMouseOut()"
                         ng-click="onClickSubject($event)">
                             {{subjectLabel}}
@@ -56,18 +57,19 @@
                 <div
                     class="pnd-row-button-predicate"
                     ng-if="!predicateFound">
-                        <span 
-                            class="pnd-statement-label" 
+                        <span
+                            class="pnd-statement-label"
                             ng-click="onClickPredicate($event)">
-                                Add a predicate
+                                <!-- Add a predicate -->
+                                选择谓语
                         </span>
                 </div>
 
                 <!-- Predicate buttons (found) -->
                 <div class="pnd-row-button-predicate pnd-statement-found" ng-if="predicateFound">
-                    <span 
-                        class="pnd-statement-label" 
-                        ng-mouseover="onPredicateMouseOver()" 
+                    <span
+                        class="pnd-statement-label"
+                        ng-mouseover="onPredicateMouseOver()"
                         ng-mouseleave="onItemMouseOut()"
                         ng-click="onClickPredicate($event)">
                             {{predicateLabel}}
@@ -84,7 +86,7 @@
                         </button>
                     </div>
                 </div>
-                <!-- // end Predicate buttons -->            
+                <!-- // end Predicate buttons -->
             </div>
         </div>
 
@@ -103,10 +105,12 @@
                     <span
                         class="pnd-statement-label"
                         ng-click="onClickObject($event)">
-                            Add an object<span ng-show="templateMode && isMandatory">*</span>
+                            <!-- Add an object -->
+                            选择宾语
+                            <span ng-show="templateMode && isMandatory">*</span>
                     </span>
 
-                    <div 
+                    <div
                         class="pnd-row-button-rightbuttons">
                         <!--Calendar Icon-->
                         <button
@@ -130,28 +134,28 @@
                 </div>
 
                 <!-- Object buttons found -->
-                <div 
+                <div
                     class="pnd-row-button-object pnd-statement-found"
                     ng-class="{'pnd-statement-icon-one': !templateMode || !objectFixed}"
                     ng-if="objectFound">
-                    <span 
+                    <span
                         class="pnd-statement-label"
-                        ng-mouseover="onObjectMouseOver()" 
+                        ng-mouseover="onObjectMouseOver()"
                         ng-mouseleave="onItemMouseOut()"
                         ng-click="onClickObject($event)"
                         ng-if="!dateWithTime">
                         {{objectLabel}}
                     </span>
-                    <span 
+                    <span
                         class="pnd-statement-label"
-                        ng-mouseover="onObjectMouseOver()" 
+                        ng-mouseover="onObjectMouseOver()"
                         ng-mouseleave="onItemMouseOut()"
                         ng-click="onClickObject($event)"
                         ng-if="dateWithTime">
                         {{objectLabel | amDateFormat:'YYYY-MM-DD  HH:mm'}}
                     </span>
 
-                    <div 
+                    <div
                         class="pnd-row-button-rightbuttons">
                         <button
                                 type="button"
@@ -171,10 +175,10 @@
 
     <!-- Right buttons -->
     <div class="pnd-statement-buttons">
-        <button 
-            type="button" 
-            class="pnd-btn pnd-btn-xs" 
-            ng-click="showDropdown($event)" 
+        <button
+            type="button"
+            class="pnd-btn pnd-btn-xs"
+            ng-click="showDropdown($event)"
             title="Triple menu"
             ng-disabled="templateMode">
                 <span class="pnd-icon pnd-icon-dots"></span>

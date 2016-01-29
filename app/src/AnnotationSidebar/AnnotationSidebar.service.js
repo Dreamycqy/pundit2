@@ -715,7 +715,7 @@ angular.module('Pundit2.AnnotationSidebar')
             });
         });
 
-        // FreeText 
+        // FreeText
         annotation.allLabels = '';
 
         for (var i in annotation.items) {
@@ -834,7 +834,8 @@ angular.module('Pundit2.AnnotationSidebar')
                 title: 'Broken annotations!',
                 id: "WARNING",
                 timeout: 12000,
-                message: "It looks like some annotations on the page are broken: this can happen if the <strong>text of the page has changed in the last days</strong>.<br /><br />See if you can fix the broken annotations by editing them.<br /><br />Broken annotations are shown on the top right of the sidebar and are highlighted in red.<br /><a href=\"javascript:void(0)\" data-inner-callback=\"0\">Click here</a> to open first broken annotation",
+                message: "如果看到这个信息，说明页面中存在损坏的标注，原因可能是标注的三元组的主语并不是在页面中，暂时请无视之",
+                //It looks like some annotations on the page are broken: this can happen if the <strong>text of the page has changed in the last days</strong>.<br /><br />See if you can fix the broken annotations by editing them.<br /><br />Broken annotations are shown on the top right of the sidebar and are highlighted in red.<br /><a href=\"javascript:void(0)\" data-inner-callback=\"0\">Click here</a> to open first broken annotation
                 callbacks: [
                     function() {
                         var ba = BrokenHelper.getBrokenAnnotations();
@@ -1130,7 +1131,7 @@ angular.module('Pundit2.AnnotationSidebar')
         angular.forEach(activeFilters, function(filter, key) {
             exceptionsCheckIndex = exceptionsCheckList.indexOf(key);
 
-            // if there aren't subfilter active or we should skip a specific subfilter 
+            // if there aren't subfilter active or we should skip a specific subfilter
             if (exceptionsCheckIndex !== -1 || filter.expression.length === 0) {
                 if (exceptionsCheckIndex === -1) {
                     subFiltersSet[key] = {};
@@ -1345,7 +1346,7 @@ angular.module('Pundit2.AnnotationSidebar')
         }
     };
 
-    // Disable a specific filter 
+    // Disable a specific filter
     annotationSidebar.removeFilter = function(filterKey, uriValue) {
         var currentIndex;
         var currentFilter = annotationSidebar.filters[filterKey].expression;

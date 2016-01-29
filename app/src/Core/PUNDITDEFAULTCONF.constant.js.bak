@@ -208,7 +208,7 @@ angular.module('Pundit2.Core')
      * Default:
      * <pre> debugAllModules: false </pre>
      */
-    debugAllModules: false, //true, //hujiawei 避免去加载和ga相关的东西
+    debugAllModules: true,
 
     /**
      * @module punditConfig
@@ -396,7 +396,7 @@ angular.module('Pundit2.Core')
      * Default:
      * <pre> useBasicRelations: true </pre>
      */
-    useBasicRelations: false, //hujiawei true
+    useBasicRelations: true,
 
     /**
      * @module punditConfig
@@ -459,7 +459,13 @@ angular.module('Pundit2.Core')
             // Client by default MUST NOT BE ACTIVE, or components will not be usable
             // individually: the client will bootstrap itself in its run() and screw
             // things up .. :|
-            active: true //hujiawei false
+            //active: false
+
+            //hujiawei
+            active: true,
+            bootModules : [ 'Toolbar', 'Dashboard', 'AnnotationSidebar',
+                    'Preview', 'VocabulariesContainer', 'PageItemsContainer',
+                    'MyItemsContainer', 'CoreItemsContainer', 'TripleComposer' ],
         },
 
         MessageHandler: {
@@ -486,9 +492,13 @@ angular.module('Pundit2.Core')
         },
         Toolbar: {
             active: true
+
+            //hujiawei
+            askThePundit: false,
+            myNotebooks: true,
         },
         LiteTool: {
-            active: false //hujiawei true
+            active: true
         },
         AnnotationSidebar: {
             active: true
@@ -498,21 +508,17 @@ angular.module('Pundit2.Core')
         },
         PageItemsContainer: {
             // ngdoc in PageItemsContainer.service.js
-            active: false
+            active: true //hujiawei false
         },
         PredicatesContainer: {
             // ngdoc in PredicatesContainer.service.js
-            active: false //true
+            active: false //hujiawei true
         },
         MyNotebooksContainer: {
-            active: false //true
+            active: false //hujiawei true
         },
         MyItemsContainer: {
             // ngdoc in MyItemsContainer.service.js
-            active: true
-        },
-        CoreItemsContainer: {
-            // ngdoc in CoreItemsContainer.service.js
             active: true
         },
         VocabulariesContainer: {
@@ -521,7 +527,7 @@ angular.module('Pundit2.Core')
         },
         SelectorsManager: {
             // ngdoc in SelectorsManager.service.js
-            active: false //hujiawei true
+            active: true
         },
         TripleComposer: {
             // ngdoc in TripleComposer.service.js

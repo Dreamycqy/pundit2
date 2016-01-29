@@ -95,7 +95,7 @@ angular.module('Pundit2.AnnotationSidebar')
             ImageHandler.options.cMenuType
         ],
         name: 'showAllAnnotations',
-        label: 'Show all annotations of this item',
+        label: '显示与该记录有关的所有标注', //Show all annotations of this item
         showIf: function(item) {
             if (typeof(item) !== 'undefined') {
                 return Consolidation.isConsolidated(item) || (item.uri in Consolidation.getFragmentParentList());
@@ -142,7 +142,7 @@ angular.module('Pundit2.AnnotationSidebar')
 
     // confirm modal
     var modalScope = $rootScope.$new();
-    modalScope.titleMessage = 'Delete Annotation';
+    modalScope.titleMessage = '删除三元组';//Delete Annotation
 
     var confirmModal = $modal({
         container: '[data-ng-app="Pundit2"]',
@@ -345,7 +345,7 @@ angular.module('Pundit2.AnnotationSidebar')
 
     annotationDetails.openConfirmModal = function(currentElement, currentId)  {
         // promise is needed to open modal when template is ready
-        modalScope.notifyMessage = 'Are you sure you want to delete this annotation? Please be aware that deleted annotations cannot be recovered.';
+        modalScope.notifyMessage = '您确定要删除么？删除之后数据无法恢复！';//Are you sure you want to delete this annotation? Please be aware that deleted annotations cannot be recovered.
         modalScope.elementReference = currentElement;
         modalScope.annotationId = currentId;
         confirmModal.$promise.then(confirmModal.show);

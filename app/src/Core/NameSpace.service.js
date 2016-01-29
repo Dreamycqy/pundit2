@@ -148,7 +148,10 @@ angular.module('Pundit2.Core')
         page: 'http://schema.org/WebPage',
         image: 'http://xmlns.com/foaf/0.1/Image',
         named: _pnd + 'named-content',
-        embeddedContent: _oa + 'EmbeddedContent'
+        embeddedContent: _oa + 'EmbeddedContent',
+        concept: "http://www.w3.org/2002/07/owl#Class", //hujiawei 添加三个type用于CoreItems中
+        category: "http://edukb.org/knowledge/0.1/class#Category",
+        instance: "http://www.w3.org/2002/07/owl#NamedIndividual"
     };
 
     // Our types labels, will be read by the TypesHelper

@@ -28,57 +28,60 @@
 
 <div>
     <div class="pnd-vertical-tab-content">
-        <div 
-            ng-repeat="pane in contentTabs" 
-            class="tab-pane pnd-vertical-tab-list-content" 
+        <div
+            ng-repeat="pane in contentTabs"
+            class="tab-pane pnd-vertical-tab-list-content"
             ng-class="[$index == active ? 'active' : '']" unlimited-scroll="infiniteScroll(pane, label)">
-            <div 
-                class="kee-server-messages" 
+            <div
+                class="kee-server-messages"
                 ng-if="showContentMessage1 && !contentTabs[$index].serverError">
                 <!-- messages 1 -->
-                <div 
+                <div
                     ng-show="!contentTabs[$index].isLoading && contentTabs[$index].items.length === 0 && elemToSearch !== ''">
-                    No results found
+                    <!-- No results found -->
+                    未找到结果
                 </div>
                 <!-- / end messages 1 -->
-                
+
                 <!-- messages 2 -->
-                <div 
-                    class="kee-server-searching" 
+                <div
+                    class="kee-server-searching"
                     ng-show="contentTabs[$index].isLoading && elemToSearch !== ''">
                     <span class="pnd-icon pnd-icon-refresh pnd-icon-spin "></span>
                 </div>
                 <!-- / end messages 2 -->
 
                 <!-- messages 3 -->
-                <div 
+                <div
                     ng-show="!contentTabs[$index].isLoading && contentTabs[$index].items.length === 0 && elemToSearch === ''">
-                    Type a label to search...
+                    <!-- Type a label to search... -->
+                    输入关键词进行搜索
                 </div>
                 <!-- / end messages 3 -->
             </div>
 
             <!-- messages 4 -->
-            <div 
-                class="kee-server-messages" 
+            <div
+                class="kee-server-messages"
                 ng-if="showContentMessage4 && contentTabs[$index].serverError">
                 <div ng-show="contentTabs[$index].serverError">
-                    Server error
+                    <!-- Server error -->
+                    服务器发生错误
                 </div>
             </div>
 
             <!-- TODO: find a better way to show partial counting -->
             <ul class="list-group" ng-init="$parent.tabItemsFiltered = $parent.tabItemsFiltered || []; initTabItemsFiltered()">
-                <li 
-                    class="list-group-item" 
+                <li
+                    class="list-group-item"
                     ng-repeat="mi in $parent.tabItemsFiltered[$index] = contentTabs[$index].isLocal ? (contentTabs[$index].items | filter:{label: label}) : contentTabs[$index].items"
                     ng-if="showFilteredResults">
-                    <item 
-                        uri="{{mi.uri}}" 
-                        is-selected="isSelected(mi)" 
+                    <item
+                        uri="{{mi.uri}}"
+                        is-selected="isSelected(mi)"
                         ng-click="select(mi, $event)"
                         ng-dblclick="save(mi)"
-                        hide-options="true" 
+                        hide-options="true"
                         hide-sticky-button="true"></item>
                 </li>
 
@@ -89,43 +92,44 @@
                 </li>
 
                 <!-- Korbo -->
-                <li 
-                    class="list-group-item" 
-                    ng-repeat="mi in contentTabs[$index].items | orderBy:getOrderProperty" 
+                <li
+                    class="list-group-item"
+                    ng-repeat="mi in contentTabs[$index].items | orderBy:getOrderProperty"
                     ng-if="!showFilteredResults"
                     ng-mouseenter="getItem(mi);$event.stopPropagation()"
                     ng-init="customTemplate = useCustomTemplate"
                     ng-mouseleave="onMouseLeave()">
-                    <item 
+                    <item
                         uri="{{mi.uri}}"
                         is-selected="isSelected(mi)"
                         hide-options="true"
-                        hide-sticky-button="true" 
+                        hide-sticky-button="true"
                         ng-click="select(mi, $event)"
                         use-in-korbo="true"></item>
                 </li>
             </ul>
         </div>
 
-        <div 
-            class="pnd-vertical-tab-footer-content" 
+        <div
+            class="pnd-vertical-tab-footer-content"
             ng-if="showVerticalTabFooterContent">
-            <button 
+            <button
                 class="pnd-resource-panel-use-button pnd-btn pnd-btn-calltoaction pnd-use"
                 ng-show="showSaveButton(this)"
-                ng-class="{'disabled': !isUseActive}" 
+                ng-class="{'disabled': !isUseActive}"
                 ng-click="save(itemSelected)">
-                Use
+                <!-- Use -->
+                使用
             </button><button
                 class="pnd-resource-panel-copy-button pnd-btn"
-                ng-class="{'disabled': !isUseActive}" 
+                ng-class="{'disabled': !isUseActive}"
                 ng-show="showUseAndCopyButton()"
                 ng-click="useAndCopy(itemSelected)">
                 Copy and Use
             </button><button
                 class="pnd-resource-panel-new-button pnd-btn"
-                ng-class="{'disabled': !isUseActive}" 
-                ng-show="showCopyInEditorButton()" 
+                ng-class="{'disabled': !isUseActive}"
+                ng-show="showCopyInEditorButton()"
                 ng-click="copyInEditor()">
                 Copy in editor
             </button><button
@@ -136,11 +140,13 @@
                 class="pnd-resource-panel-use-button pnd-btn"
                 ng-show="showUseFullPageButton"
                 ng-click="useFullPage()">
-                Use web page
+                <!-- Use web page -->
+                使用当前页面
             </button><button
                 class="pnd-resource-panel-use-button pnd-btn"
                 ng-click="cancel()">
-                Cancel
+                <!-- Cancel -->
+                取消
             </button>
         </div>
     </div>

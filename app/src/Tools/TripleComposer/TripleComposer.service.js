@@ -73,7 +73,7 @@ angular.module('Pundit2.TripleComposer')
      * Default value:
      * <pre> clientDashboardTabTitle: "Annotation Composer" </pre>
      */
-    clientDashboardTabTitle: "Annotation composer",
+    clientDashboardTabTitle: "三元组构建", //Annotation composer
 
     /**
      * @module punditConfig
@@ -88,7 +88,7 @@ angular.module('Pundit2.TripleComposer')
      * Default value:
      * <pre> savingMsg: "We are saving your annotation" </pre>
      */
-    savingMsg: "We are saving your annotation",
+    savingMsg: "三元组正在保存", //We are saving your annotation
 
     /**
      * @module punditConfig
@@ -118,7 +118,7 @@ angular.module('Pundit2.TripleComposer')
      * Default value:
      * <pre> notificationSuccessMsg: "Your annotation has been saved successfully" </pre>
      */
-    notificationSuccessMsg: "Your annotation has been saved successfully",
+    notificationSuccessMsg: "三元组保存成功", //Your annotation has been saved successfully
     /**
      * @module punditConfig
      * @ngdoc property
@@ -132,7 +132,7 @@ angular.module('Pundit2.TripleComposer')
      * Default value:
      * <pre> notificationErrorMsg: "We were unable to save your annotation" </pre>
      */
-    notificationErrorMsg: "We were unable to save your annotation",
+    notificationErrorMsg: "三元组保存失败", //We were unable to save your annotation
 
     /**
      * @module punditConfig
@@ -264,7 +264,7 @@ angular.module('Pundit2.TripleComposer')
                 Config.modules.ImageHandler.cMenuType
             ],
             name: 'useAsSubject',
-            label: 'Use as subject',
+            label: '作为主语', //Use as subject
             showIf: function(item) {
                 return /*!Toolbar.isActiveTemplateMode() &&*/ tripleComposer.canAddItemAsSubject(item);
             },
@@ -290,7 +290,7 @@ angular.module('Pundit2.TripleComposer')
                 Config.modules.ImageHandler.cMenuType
             ],
             name: 'useAsObject',
-            label: 'Use as object',
+            label: '作为宾语', //Use as object
             showIf: function(item) {
                 return /*!Toolbar.isActiveTemplateMode() &&*/ tripleComposer.canAddItemAsObject(item);
             },
@@ -307,7 +307,7 @@ angular.module('Pundit2.TripleComposer')
                 Config.modules.PredicatesContainer.cMenuType
             ],
             name: 'useAsPredicate',
-            label: 'Use as predicate',
+            label: '作为谓语', //Use as predicate
             showIf: function(item) {
                 if (tripleComposer.canBeUseAsPredicate(item)) {
                     ContextualMenu.modifyHeaderActionByName('useAsPredicate', false);
@@ -327,7 +327,7 @@ angular.module('Pundit2.TripleComposer')
         ContextualMenu.addAction({
             name: 'newTriple',
             type: tripleComposer.options.cMenuType,
-            label: 'New triple',
+            label: '新建三元组', //New triple
             priority: 3,
             showIf: function() {
                 return true;
@@ -343,7 +343,7 @@ angular.module('Pundit2.TripleComposer')
         ContextualMenu.addAction({
             name: 'duplicateTriple',
             type: tripleComposer.options.cMenuType,
-            label: 'Duplicate triple',
+            label: '复制三元组', //Duplicate triple
             priority: 3,
             showIf: function() {
                 return true;
@@ -357,9 +357,29 @@ angular.module('Pundit2.TripleComposer')
         });
 
         ContextualMenu.addAction({
+            name: 'duplicateTriple2',
+            type: tripleComposer.options.cMenuType,
+            label: '复制三元组 x 2', //Duplicate triple
+            priority: 3,
+            showIf: function() {
+                return true;
+            },
+            action: function(statement) {
+                var id = parseInt(statement.id, 10);
+                tripleComposer.duplicateStatement(id, statement.tripleComposerName);
+                statementChangeStatus();
+                trackContextualEvent('duplicateTriple');
+
+                tripleComposer.duplicateStatement(id, statement.tripleComposerName);
+                statementChangeStatus();
+                trackContextualEvent('duplicateTriple');
+            }
+        });
+
+        ContextualMenu.addAction({
             name: 'removeTriple',
             type: tripleComposer.options.cMenuType,
-            label: 'Remove triple',
+            label: '删除三元组', //Remove triple
             priority: 3,
             showIf: function() {
                 return true;

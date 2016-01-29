@@ -77,7 +77,7 @@ angular.module('Pundit2.ResourcePanel')
         }
 
         var myItemsNotLogged = tabTitle === 'My Items' && MyPundit.isUserLogged() === false,
-            userNotLoggedMessage = 'My Items are only available to logged users. Please log in to use this section or select a fragment of text in the page.';
+            userNotLoggedMessage = 'My Items are only available to logged users. Please log in to use this section or select a fragment of text in the page.';//TODO hujiawei
 
         searchLabel = typeof(searchLabel) !== 'undefined' ? searchLabel : '';
         if (searchLabel.length > 2 &&
@@ -100,7 +100,7 @@ angular.module('Pundit2.ResourcePanel')
         tabItems = typeof(tabItems) !== 'undefined' ? tabItems : [];
         if (tabTitle === 'My Items' &&
             tabItems.length === 0) {
-            return 'It seems you haven\'t any item stored here yet! Please add some items to My Items to use this section.';
+            return 'It seems you haven\'t any item stored here yet! Please add some items to My Items to use this section.';//TODO hujiawei
         }
         if (filteredItems.length === 0 &&
             searchLabel.length > 2 &&

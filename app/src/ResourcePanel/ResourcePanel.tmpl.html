@@ -2,25 +2,26 @@
 
 <div class="tabbable tabs-left"> <!-- tabs left -->
    <!-- header -->
-   <div 
+   <div
         class="pnd-panel-tab-content-header pnd-panel-tab-content-header-border"
         ng-if="showHeader">
 
        <!-- TODO: please remember that class "pnd-vertical-tab-header-content" was removed -->
-        
+
         <!-- Search Input div -->
         <div class="left-inner-icon pnd-panel-tab-search">
-            <span 
-                class="pnd-icon {{subjectIcon}}" 
+            <span
+                class="pnd-icon {{subjectIcon}}"
                 ng-click="clearSearch()"></span>
-            <input 
-                type="text" 
-                class="pnd-rsp-input input-sm form-control" 
-                placeholder="Type at least 3 characters ..." 
+            <input
+                type="text"
+                class="pnd-rsp-input input-sm form-control"
+                placeholder="输入关键词进行搜索"
                 ng-model="$parent.$parent.label"
                 ng-change="updateSearch($parent.$parent.label)"
-                ng-minlength="3"
                 >
+                <!-- hujiawei ng-minlength="3" -->
+                <!-- placeholder="Type at least 3 characters ..." -->
         </div>
     </div>
     <!-- // end header -->

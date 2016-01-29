@@ -2,7 +2,7 @@
 
 <style>
     .pnd-cons {
-        background: #fc0;
+        /* background: #fc0; */
     }
 </style>
 
@@ -10,66 +10,38 @@
     angular.element('body').css('height', '4200px');
 
     var punditConfig = {
-        annotationServerBaseURL: "http://staging.punditbrain.netseven.it:8182/annotationserver/",
         //annotationServerBaseURL: "http://as.thepund.it:8080/annotationserver/",
-
+        annotationServerBaseURL: "http://166.111.7.170:28080/annotationserver_demo/",
+        vocabularies: ['http://166.111.7.170/apibztask/vocabulary/demo_relations'],
         // vocabularies: ['http://manager.korbo.org/91'],
         // useBasicRelations: false,
         // useTemplates: false,
         // useOnlyTemplateMode: true,
-        imageFragmentAnnotator: {
-            active: true
-        },
+        // imageFragmentAnnotator: {
+        //     active: true
+        // },
+        //
+        // lodLive: {
+        //     active: true
+        // },
 
-        lodLive: {
-            active: true
-        },
+        // limitToSuggestedTypes: true,
+
+        debugAllModules: true,
 
         modules: {
-            'MyPundit': {
-                // popoverLoginURL: 'http://geolat.giulio/app_dev.php/oauth/v2/auth?client_id=1_67cg7lghdg08go8gso0gkow04oksswwk4s4g80cs0ssgcc8g4k&response_type=code&redirect_uri=http://geolat.giulio:8282/annotationserver/oauthauthentication/login_return'
-                popoverLoginURL: 'http://geolat.giulio/oauth/v2/auth?client_id=1_67cg7lghdg08go8gso0gkow04oksswwk4s4g80cs0ssgcc8g4k&response_type=code&redirect_uri=http://geolat.giulio:8282/annotationserver/oauthauthentication/login_return'
-            },
-            'Client': {
-                debug: false,
-                active: true
-            },
-            // "Consolidation": { debug: true },
-            'Analytics': {
-                doTracking: true,
-                trackingCode: "UA-53237248-3"
-            },
-            'DbpediaSelector': {
-                active: true
-            },
-            'FreebaseSelector': {
-                active: true
-            },
-            'AnnotationDetails': {
-                moreInfo: true
-            },
-            'TextFragmentAnnotator': {
-                debug: false
-            },
-            'Dashboard': {
-                debug: false
-            },
-            'Keyboard': {
-                active: true,
-                debug: false
-            },
-            'AnnotationsCommunication': {
-                loadMultipleAnnotations: true
-            },
-            'PageItemsContainer': {
-                active: true
-            },
-            'VocabulariesContainer': {
-                active: true
-            },
-            'ModelHelper': {
-                mode: 'mode2'
+            // 'MyPundit': {
+            //     // popoverLoginURL: 'http://geolat.giulio/app_dev.php/oauth/v2/auth?client_id=1_67cg7lghdg08go8gso0gkow04oksswwk4s4g80cs0ssgcc8g4k&response_type=code&redirect_uri=http://geolat.giulio:8282/annotationserver/oauthauthentication/login_return'
+            //     popoverLoginURL: 'http://geolat.giulio/oauth/v2/auth?client_id=1_67cg7lghdg08go8gso0gkow04oksswwk4s4g80cs0ssgcc8g4k&response_type=code&redirect_uri=http://geolat.giulio:8282/annotationserver/oauthauthentication/login_return'
+            // },
+            // 'Client': {
+            //     active: true
+            // }
+
+            CoreItems: {
+                url: 'http://166.111.7.170/apibztask/vocabulary/demo_concept'
             }
+
         }
     }
 </script>
@@ -85,7 +57,7 @@
     /* cache key: itwiki:resourceloader:filter:minify-css:7:29fac8f8e3c72fe3be678699f8a6d0c6 */</style>
     <link rel="dns-prefetch" href="//meta.wikimedia.org" />
 
-    <div id="content" class="mw-body pundit-content" about="http://it.wikipedia.org/wiki/Palaia-test" role="main" style="margin-left: auto;">
+    <div id="content" class="mw-body pundit-content" about="http://it.wikipedia.org/wiki/Palaia" role="main" style="margin-left: auto;">
         <a id="top"></a>
 
         <div id="mw-js-message" style="display:none;"></div>
@@ -307,7 +279,7 @@
                     <div class="thumb tleft">
                         <div class="thumbinner" style="width:222px;"><a href="/wiki/File:Particolare_della_torre_dell%27orologio_palaia.JPG" class="image"><img alt="" src="//upload.wikimedia.org/wikipedia/commons/thumb/0/07/Particolare_della_torre_dell%27orologio_palaia.JPG/220px-Particolare_della_torre_dell%27orologio_palaia.JPG" width="220" height="330" class="thumbimage" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/0/07/Particolare_della_torre_dell%27orologio_palaia.JPG/330px-Particolare_della_torre_dell%27orologio_palaia.JPG 1.5x, //upload.wikimedia.org/wikipedia/commons/0/07/Particolare_della_torre_dell%27orologio_palaia.JPG 2x" data-file-width="400" data-file-height="600" /></a>
                             <div class="thumbcaption">
-                                <div class="magnify"><a href="/wiki/File:Particolare_della_torre_dell%27orologio_palaia.JPG" class="internal" title="Ingrandisci"><img src="//bits.wikimedia.org/static-1.24wmf12/skins/common/images/magnify-clip.png" width="15" height="11" alt="" /></a></div>
+                                <div class="magnify"><a href="/wiki/File:Particolare_della_torre_dell%27orologio_palaia.JPG" class="internal" title="Ingrandisci"><img src="" width="15" height="11" alt="" /></a></div>
                                 Particolare della torre dell'orologio</div>
                             </div>
                         </div>
@@ -318,14 +290,21 @@
                         <p>Il castello di Palaia passò nuovamente sotto la giurisdizione del Comune di Firenze grazie alla pace di Ferrara del 26 aprile <a href="/wiki/1433" title="1433">1433</a>. Nell'anno <a href="/wiki/1495" title="1495">1495</a> Palaia passò sotto il dominio dei Pisani.</p>
                         <p>Palaia fino al novembre dell'anno <a href="/wiki/1838" title="1838">1838</a> fu residenza di un potestà sottoposto al vicariato Regio di Pontedera.</p>
                         <p>Analogamente a quanto accaduto nella vicina <a href="/wiki/Peccioli" title="Peccioli">Peccioli</a>, al plebiscito del 1860 per l'annessione della Toscana alla Sardegna i favorevoli ai Savoia raggiunsero la maggioranza dei votanti, ma con una percentuale di favorevoli al regno separato tra le più alte della Toscana (20% per Palaia sul totale dei votanti, 31% per Peccioli)<sup id="cite_ref-3" class="reference"><a href="#cite_note-3">[3]</a></sup>.</p>
+
                         <h3><span class="mw-headline" id="Simboli">Simboli</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Palaia&amp;veaction=edit&amp;vesection=6" title="Modifica la sezione Simboli" class="mw-editsection-visualeditor">modifica</a><span class="mw-editsection-divider"> | </span><a href="/w/index.php?title=Palaia&amp;action=edit&amp;section=6" title="Modifica la sezione Simboli">modifica sorgente</a><span class="mw-editsection-bracket">]</span></span></h3>
                         <p>Lo stemma comunale è costituito da uno scudo azzurro in campo bianco ed azzurro raffigurante un castello con tre torri, il tutto sotto una corona a nove punte, in basso un ramoscello di mirto e un ramoscello di quercia. La blasonatura del gonfalone è costituita da uno stendardo di colore azzurro e bianco a forma rettangolare con tre punte alla base, bordate di frangia argentata con in alto la scritta in lettere dorate "COMUNE DI PALAIA" ed al centro lo stemma del Comune.</p>
+
+
+                        <h3><span class="mw-headline" id="Simboli">Simboli nero</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Palaia&amp;veaction=edit&amp;vesection=6" title="Modifica la sezione Simboli" class="mw-editsection-visualeditor">modifica</a><span class="mw-editsection-divider"> | </span><a href="/w/index.php?title=Palaia&amp;action=edit&amp;section=6" title="Modifica la sezione Simboli">modifica sorgente</a><span class="mw-editsection-bracket">]</span></span></h3>
+                        <p style="color: #FFF; background: #000; padding: 20px;">Lo stemma comunale è costituito da uno scudo azzurro in campo bianco ed azzurro raffigurante un castello con tre torri, il tutto sotto una corona a nove punte, in basso un ramoscello di mirto e un ramoscello di quercia. La blasonatura del gonfalone è costituita da uno stendardo di colore azzurro e bianco a forma rettangolare con tre punte alla base, bordate di frangia argentata con in alto la scritta in lettere dorate "COMUNE DI PALAIA" ed al centro lo stemma del Comune.</p>
+
+
                         <h2><span class="mw-headline" id="Monumenti_e_luoghi_di_interesse">Monumenti e luoghi di interesse</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Palaia&amp;veaction=edit&amp;vesection=7" title="Modifica la sezione Monumenti e luoghi di interesse" class="mw-editsection-visualeditor">modifica</a><span class="mw-editsection-divider"> | </span><a href="/w/index.php?title=Palaia&amp;action=edit&amp;section=7" title="Modifica la sezione Monumenti e luoghi di interesse">modifica sorgente</a><span class="mw-editsection-bracket">]</span></span></h2>
                         <h3><span class="mw-headline" id="Architetture_religiose">Architetture religiose</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Palaia&amp;veaction=edit&amp;vesection=8" title="Modifica la sezione Architetture religiose" class="mw-editsection-visualeditor">modifica</a><span class="mw-editsection-divider"> | </span><a href="/w/index.php?title=Palaia&amp;action=edit&amp;section=8" title="Modifica la sezione Architetture religiose">modifica sorgente</a><span class="mw-editsection-bracket">]</span></span></h3>
                         <div class="thumb tright">
                             <div class="thumbinner" style="width:222px;"><a href="/wiki/File:Chiesa_di_Santa_Maria_a_Palaia.JPG" class="image"><img alt="" src="//upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Chiesa_di_Santa_Maria_a_Palaia.JPG/220px-Chiesa_di_Santa_Maria_a_Palaia.JPG" width="220" height="330" class="thumbimage" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Chiesa_di_Santa_Maria_a_Palaia.JPG/330px-Chiesa_di_Santa_Maria_a_Palaia.JPG 1.5x, //upload.wikimedia.org/wikipedia/commons/5/5f/Chiesa_di_Santa_Maria_a_Palaia.JPG 2x" data-file-width="400" data-file-height="600" /></a>
                                 <div class="thumbcaption">
-                                    <div class="magnify"><a href="/wiki/File:Chiesa_di_Santa_Maria_a_Palaia.JPG" class="internal" title="Ingrandisci"><img src="//bits.wikimedia.org/static-1.24wmf12/skins/common/images/magnify-clip.png" width="15" height="11" alt="" /></a></div>
+                                    <div class="magnify"><a href="/wiki/File:Chiesa_di_Santa_Maria_a_Palaia.JPG" class="internal" title="Ingrandisci"><img src="" width="15" height="11" alt="" /></a></div>
                                     Facciata della Chiesa di Santa Maria</div>
                                 </div>
                             </div>
@@ -369,9 +348,9 @@
                             <p>Palaia è caratterizzata da un territorio adatto alla coltivazione della vite, dell'olivo e degli alberi da frutto. Lo sfruttamento delle risorse agricole è infatti ancora oggi fonte di sostegno per gli abitanti del territorio in quanto fornisce uva, frutta, ortaggi, legumi, patate e soprattutto olive. Da segnalare come attività economica significativa l'<a href="/wiki/Avicoltura" title="Avicoltura">avicoltura</a>. Palaia è inoltre legata al turismo grazie al notevole numero di agriturismi che ospita il suo territorio.</p>
                             <h2><span class="mw-headline" id="Amministrazione">Amministrazione</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Palaia&amp;veaction=edit&amp;vesection=14" title="Modifica la sezione Amministrazione" class="mw-editsection-visualeditor">modifica</a><span class="mw-editsection-divider"> | </span><a href="/w/index.php?title=Palaia&amp;action=edit&amp;section=14" title="Modifica la sezione Amministrazione">modifica sorgente</a><span class="mw-editsection-bracket">]</span></span></h2>
                             <div class="thumb tright">
-                                <div class="thumbinner" style="width:222px;"><a href="/wiki/File:Bandasantamaria.jpg" class="image"><img alt="" src="//upload.wikimedia.org/wikipedia/it/thumb/b/b1/Bandasantamaria.jpg/220px-Bandasantamaria.jpg" width="220" height="330" class="thumbimage" srcset="//upload.wikimedia.org/wikipedia/it/thumb/b/b1/Bandasantamaria.jpg/330px-Bandasantamaria.jpg 1.5x, //upload.wikimedia.org/wikipedia/it/thumb/b/b1/Bandasantamaria.jpg/440px-Bandasantamaria.jpg 2x" data-file-width="500" data-file-height="750" /></a>
+                                <div class="thumbinner" style="width:222px;"><a href="/wiki/File:Bandasantamaria.jpg" class="image"><img alt="" src="" width="220" height="330" class="thumbimage" srcset="" data-file-width="500" data-file-height="750" /></a>
                                     <div class="thumbcaption">
-                                        <div class="magnify"><a href="/wiki/File:Bandasantamaria.jpg" class="internal" title="Ingrandisci"><img src="//bits.wikimedia.org/static-1.24wmf12/skins/common/images/magnify-clip.png" width="15" height="11" alt="" /></a></div>
+                                        <div class="magnify"><a href="/wiki/File:Bandasantamaria.jpg" class="internal" title="Ingrandisci"><img src="" width="15" height="11" alt="" /></a></div>
                                         La Filarmonica "G. Puccini" in parata</div>
                                     </div>
                                 </div>

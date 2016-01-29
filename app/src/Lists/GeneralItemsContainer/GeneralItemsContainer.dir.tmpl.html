@@ -65,23 +65,28 @@
                 title="Use as subject"
                 ng-disabled="!isUseActive || !canAddItemAsSubject"
                 ng-click="onClickUseSubject()">
-            Set subject
-        </button><button
+            <!-- Set subject -->
+            作为主语
+        </button>
+        <button
                 ng-if="!(isMyNotebooks || isPredicates)"
                 class="pnd-btn pnd-btn-object"
                 title="Use as object"
                 ng-disabled="!isUseActive || !canAddItemAsObject"
                 ng-click="onClickUseObject()">
-            Set object
-        </button><button
+            <!-- Set object -->
+            作为宾语
+        </button>
+        <button
                 class="{{actionButton.btnClass}}"
                 title="{{actionButton.title}}"
-                ng-disabled="isMyNotebooks? false :
-                            isPredicates? (!isUseActive || !canBeUseAsPredicate) :
-                            actionButton.requireLoggedUser? (!isUseActive || !isUserLogged) : !isUseActive"
+                ng-disabled="!isUseActive"
                 ng-click="onClickAction()">
             {{actionButton.text}}
         </button>
+        <!-- ng-disabled="isMyNotebooks? false :
+                    isPredicates? (!isUseActive || !canBeUseAsPredicate) :
+                    actionButton.requireLoggedUser? (!isUseActive || !isUserLogged) : !isUseActive" -->
 
     </div> <!-- end pnd-panel-tab-content-footer -->
 

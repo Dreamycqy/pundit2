@@ -89,10 +89,10 @@ angular.module('Pundit2.Communication')
                     EventDispatcher.sendEvent('AnnotationsCommunication.editAnnotation', annID);
                     setLoading(false);
                     EventDispatcher.sendEvent('Pundit.alert', {
-                        title: 'Annotation edited',
+                        title: '三元组更新成功', //Annotation edited
                         id: "SUCCESS",
                         timeout: 3000,
-                        message: "Your annotation has been correctly saved."
+                        message: "三元组更新成功" //Your annotation has been correctly saved.
                     });
                     promise.resolve();
                 });
@@ -388,10 +388,10 @@ angular.module('Pundit2.Communication')
                 Consolidation.wipeItems(itemsToDelete);
 
                 EventDispatcher.sendEvent('Pundit.alert', {
-                    title: 'Annotation deleted',
+                    title: '三元组删除成功', //Annotation deleted
                     id: "SUCCESS",
                     timeout: 3000,
-                    message: "Your annotation has been correctly deleted."
+                    message: "三元组删除成功" //Your annotation has been correctly deleted.
                 });
                 EventDispatcher.sendEvent('Pundit.dispatchDocumentEvent', {
                     event: 'Pundit.updateAnnotationsNumber',
@@ -538,10 +538,10 @@ angular.module('Pundit2.Communication')
                     });
 
                     EventDispatcher.sendEvent('Pundit.alert', {
-                        title: 'Annotation saved',
+                        title: '三元组保存成功', //Annotation saved
                         id: "SUCCESS",
                         timeout: 3000,
-                        message: "Congratulations, your new annotation has been correctly saved."
+                        message: "三元组保存成功" //Congratulations, your new annotation has been correctly saved.
                     });
 
                     // TODO move inside notebook then?

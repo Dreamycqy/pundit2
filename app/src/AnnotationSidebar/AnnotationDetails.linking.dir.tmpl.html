@@ -1,5 +1,5 @@
 <div class="pnd-annotation-details-wrap pnd-ignore">
-    <div class="pnd-annotation-details-header pnd-annotation-details-top" 
+    <div class="pnd-annotation-details-header pnd-annotation-details-top"
         ng-click="toggleAnnotation()"
         ng-class="{'pnd-annotation-details-broken': annotation.broken, 'pnd-annotation-details-ghosted': annotation.ghosted}">
         <div class="{{::annotation.mainItem.class}}">
@@ -7,15 +7,15 @@
                         <span ng-show="annotation.broken" class="pnd-annotation-icon-color">
                             <span class="pnd-icon pnd-icon-exclamation"></span>
                         </span>
-                        <span 
-                            ng-show="!annotation.broken" 
+                        <span
+                            ng-show="!annotation.broken"
                             class="pnd-annotation-icon-color"
                             style="background-color: {{::annotation.color}};">
-                            <span 
+                            <span
                                 class="{{annotation.mainItem.icon}}"></span>
                         </span>
                         <span class="pnd-item-title">{{annotation.mainItem.label}}</span>
-                </div>    
+                </div>
                 <button type="button" class="pnd-btn pull-right">
                     <span ng-class="{true:'pnd-icon-caret-up', false:'pnd-icon-caret-down'}[annotation.expanded]"></span>
                 </button>
@@ -25,15 +25,18 @@
         <div class="pnd-annotation-details-content">
 
             <!-- Meta -->
-            <div 
-                class="pnd-annotation-details-meta" 
+            <div
+                class="pnd-annotation-details-meta"
                 ng-init="meta = false">
                 <div class="pnd-annotation-details-item-header"
                      ng-click="meta = !meta; trackAnalyticsToggleEvent('meta', meta)"
                      ng-class="{'pnd-annotation-details-sub-open': meta}">
                     <div class="pnd-annotation-item-header-text">
                         <span class="pnd-icon pnd-icon-info-circle"></span>
-                        <span>Annotation's info</span>
+                        <span>
+                          <!-- Annotation's info -->
+                          标注信息
+                        </span>
                     </div>
                     <button type="button" class="pnd-btn pnd-btn-link pull-right">
                         <span ng-class="{true:'pnd-icon-caret-up', false:'pnd-icon-caret-down'}[meta]"></span>
@@ -43,13 +46,13 @@
                 <div ng-show="meta" class="pnd-sub-info">
                         <span ng-if="meta">
                             <div class="pnd-annotation-details-info-author">
-                                <strong>Author:</strong> {{::annotation.creatorName}}
+                                <strong><!--Author:-->标注人：</strong> {{::annotation.creatorName}}
                             </div>
                             <div class="pnd-annotation-details-info-date">
-                                <strong>Date:</strong> {{::annotation.created | date : 'MMM d, y H:mm a'}}
+                                <strong><!--Date:-->标注时间：</strong> {{::annotation.created | date : 'MMM d, y H:mm a'}}
                             </div>
                             <div class="pnd-annotation-details-info-notebook">
-                                <strong>Notebook:</strong>
+                                <strong><!--Notebook:-->笔记本：</strong>
                                 <a href="{{::askLink}}{{::annotation.notebookId}}"
                                    target="_blank"
                                    ng-click="trackAnalyticsEvent('meta--notebook')"
@@ -61,14 +64,15 @@
                                 </span>
                             </div>
                             <div class="pnd-annotation-details-info-id">
-                                <strong>Annotation ID:</strong> {{::annotation.id}}
+                                <strong><!--Annotation ID:-->标注编号：</strong> {{::annotation.id}}
                             </div>
                             <div ng-show="lodLive">
-                                <strong>Graph:</strong>
+                                <strong><!--Graph:-->数据图：</strong>
                                 <a href="{{::openGraph}}"
                                    target="_blank"
                                    ng-click="trackAnalyticsEvent('meta--graph')">
-                                    open graph of the annotation
+                                    <!-- open graph of the annotation -->
+                                    打开该标注的数据图
                                 </a>
                             </div>
                         </span>
@@ -78,13 +82,13 @@
 
             <!-- Triples -->
             <div class="pnd-annotation-details-item" ng-repeat="item in annotation.itemsArray">
-       
+
                 <!-- Subject -->
-                <div 
-                    class="pnd-annotation-details-subject" 
+                <div
+                    class="pnd-annotation-details-subject"
                     ng-init="subInfo = false">
-                        <div 
-                            class="pnd-annotation-details-item-header" 
+                        <div
+                            class="pnd-annotation-details-item-header"
                             ng-click="subInfo = !subInfo; trackAnalyticsToggleEvent('subInfo--subject', subInfo)"
                             ng-class="{'pnd-annotation-details-sub-open': subInfo}">
                             <!-- <span class="{{item.subject.icon}}"></span> -->
@@ -106,11 +110,11 @@
                 <!-- // END Subject -->
 
                 <!-- Predicate -->
-                <div 
-                    class="pnd-annotation-details-predicate" 
+                <div
+                    class="pnd-annotation-details-predicate"
                     ng-init="preInfo = false">
-                        <div 
-                            class="pnd-annotation-details-item-header" 
+                        <div
+                            class="pnd-annotation-details-item-header"
                             ng-click="preInfo = !preInfo; trackAnalyticsToggleEvent('subInfo--predicate', preInfo)"
                             ng-class="{'pnd-annotation-details-sub-open': preInfo}">
                             <div class="pnd-annotation-item-header-text">
@@ -132,11 +136,11 @@
 
                 <!-- Object -->
                 <div ng-repeat="object in item.objects">
-                    <div 
+                    <div
                         class="pnd-annotation-details-object"
                         ng-init="objInfo = false">
-                            <div 
-                                class="pnd-annotation-details-item-header" 
+                            <div
+                                class="pnd-annotation-details-item-header"
                                 ng-click="objInfo = !objInfo; trackAnalyticsToggleEvent('subInfo--object', objInfo)"
                                 ng-class="{'pnd-annotation-details-sub-open': objInfo}">
                                 <!-- <span class="{{object.icon}}"></span> -->
@@ -180,14 +184,14 @@
 
         <!-- Footer -->
         <div class="pnd-annotation-details-footer" ng-show="isUserToolShowed()">
-            <button 
-                type="button" 
-                ng-if="showEdit()" 
+            <button
+                type="button"
+                ng-if="showEdit()"
                 class="pnd-btn pnd-btn-small pnd-btn-fill-width pnd-edit"
-                ng-click="editAnnotation()">Edit</button><button
-                type="button" 
+                ng-click="editAnnotation()"><!-- Edit -->编辑</button><button
+                type="button"
                 class="pnd-btn pnd-btn-small pnd-btn-fill-width pnd-delete"
-                ng-click="deleteAnnotation()">Delete</button>
+                ng-click="deleteAnnotation()"><!-- Delete -->删除</button>
         </div>
         <!-- // END Footer -->
 
