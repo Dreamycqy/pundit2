@@ -708,13 +708,20 @@ angular.module('Pundit2.GeneralItemsContainer')
                     }
                 });
             } else {
-                $scope.displayedItems = ContainerManager.getItemsArrays()[$scope.tabs.activeTab].filter(function(items) {
+                var itemArray = ContainerManager.getItemsArrays()[$scope.tabs.activeTab];
+                //先插入与搜索词一模一样的
+                $scope.displayedItems = itemArray.filter(function(items) {
+                    return items.label.toLowerCase() == str;
+                });
+                //然后插入正则匹配的前10项
+                var regItems = itemArray.filter(function(items) {
                     return items.label.toLowerCase().match(reg) !== null;
                 });
-            }
+                //TODO hujiawei $scope.displayedItems 为了界面的快速响应！但是不足在于没法显示之后的搜索结果！
+                regItems= regItems.slice(0,10);
 
-            //TODO hujiawei $scope.displayedItems 为了界面的快速响应！但是不足在于没法显示之后的搜索结果！
-            $scope.displayedItems = $scope.displayedItems.slice(0,10);
+                $scope.displayedItems = $scope.displayedItems.concat(regItems);
+            }
 
             // update text messagge
             $scope.message.text = GeneralItemsContainer.getMessageText($scope.type, str);
