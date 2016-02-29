@@ -55,7 +55,8 @@ angular.module('Pundit2.Annomatic')
      * Default value:
      * <pre> source: 'gramsci' </pre>
      */
-    source: 'DataTXT',
+    source: 'DataTXT', //TODO hujiawei 设置提供推荐标注的服务源 'DataTXT' or 'gramsci' or 'NER'
+    //默认是 DataTXT
 
     /**
      * @module punditConfig
@@ -70,7 +71,7 @@ angular.module('Pundit2.Annomatic')
      * Default value:
      * <pre> sourceURL: 'http://localhost/ner' </pre>
      */
-    sourceURL: 'http://localhost/ner',
+    sourceURL: 'http://localhost/ner', //TODO hujiawei 如果要使用NER的话就需要设置这个NER的资源URL
 
     /**
      * @module punditConfig
@@ -86,7 +87,7 @@ angular.module('Pundit2.Annomatic')
      * Default value:
      * <pre> property: 'http://purl.org/pundit/ont/oa#isRelatedTo' </pre>
      */
-    property: 'http://purl.org/pundit/ont/oa#isRelatedTo',
+    property: 'http://purl.org/pundit/ont/oa#isRelatedTo', //保存推荐标注时使用的属性值
 
     /**
      * @module punditConfig
@@ -101,7 +102,7 @@ angular.module('Pundit2.Annomatic')
      * Default value:
      * <pre> minConfidence: 0.65 </pre>
      */
-    minConfidence: 0.65,
+    minConfidence: 0.65, //TODO hujiawei 最小的置信度阈值，高于这个置信度的才能作为推荐
 
     /**
      * @module punditConfig
@@ -116,7 +117,7 @@ angular.module('Pundit2.Annomatic')
      * Default value:
      * <pre> property: 'http://purl.org/pundit/ont/oa#isRelatedTo' </pre>
      */
-    partialSelection: false
+    partialSelection: false   //TODO hujiawei 暂时禁止部分选择文本
 })
 
 /**
@@ -1074,7 +1075,7 @@ angular.module('Pundit2.Annomatic')
     //     // save all accepted annotation
     //     for (var i=0; i<annomatic.ann.byState.accepted.length; i++) {
     //         var index = annomatic.ann.byState.accepted[i];
-    //         annomatic.save(index);    
+    //         annomatic.save(index);
     //     }
     // };
 
@@ -1146,7 +1147,7 @@ angular.module('Pundit2.Annomatic')
         }
 
         var element = angular.element(node);
-        var about = element.attr('about');
+        var about = element.attr('about');//TODO hujiawei about属性作为doc_id，因为可以使用about属性来定位内容div，也就可以定位标注的起始结束位置
         var content = element.parent().html();
 
         NameEntityRecognitionResource.getAnnotations({
@@ -1159,7 +1160,7 @@ angular.module('Pundit2.Annomatic')
                 if (annomatic.options.source === 'gramsci') {
                     consolidateNERSpots(data);
                 } else {
-                    consolidateNERSpots(NERMock);
+                    consolidateNERSpots(NERMock);//TODO hujiawei 这里使用的是MOCK的数据
                 }
                 promise.resolve();
             },
@@ -1185,7 +1186,7 @@ angular.module('Pundit2.Annomatic')
      * @return {Promise} promise will be resolved when the data is returned from the current service
      *
      */
-    annomatic.getAnnotations = function(node) {
+    annomatic.getAnnotations = function(node) {//TODO hujiawei 根据配置的service去访问得到推荐的标注列表
         if (annomatic.options.source === 'DataTXT') {
             return annomatic.getDataTXTAnnotations(node);
         } else if (annomatic.options.source === 'gramsci' || annomatic.options.source === 'NER') {
@@ -1267,7 +1268,7 @@ angular.module('Pundit2.Annomatic')
                     });
 
                     if (typeof(ann.entities) === 'undefined') {
-                        // create item from resource 
+                        // create item from resource
                         ItemsExchange.addItemToContainer(createItemFromNERAnnotation(ann), annomatic.options.container);
                     } else {
                         for (var ent in ann.entities) {

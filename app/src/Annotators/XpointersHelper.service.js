@@ -142,7 +142,8 @@ angular.module('Pundit2.Annotators')
      * Default value:
      * <pre> namedContentClasses: ['pundit-content'] </pre>
      */
-    namedContentClasses: ['pundit-content'],
+    namedContentClasses: ['pundit-content', 'summary', 'content'], //TODO hujiawei 包含这个css class的文本片段会用来分析推荐标注
+    //TODO hujiawei 'summary', 'content' 是加上的
 
     /**
      * @module punditConfig
@@ -257,7 +258,7 @@ angular.module('Pundit2.Annotators')
     }; // getXPathsFromXPointers()
 
     xpointersHelper.isValidXpointerURI = function(xpointer) {
-        // TODO: perché in client.html si verifica xpointer undefined?! 
+        // TODO: perché in client.html si verifica xpointer undefined?!
         if (typeof(xpointer) === 'undefined') {
             xpointersHelper.err('Xpointer is undefined: this should not happend!');
             return false;
@@ -939,7 +940,7 @@ angular.module('Pundit2.Annotators')
             uri = uri.substring(0, uri.indexOf('#'));
         }
 
-        // TODO: add pundit-show support in Pundit2 
+        // TODO: add pundit-show support in Pundit2
         // If there's a query, decode it and remove it from the uri. Look for the
         // pundit-show parameter and strips it out
         // TODO: 'pundit-show' should be configurable ... ?

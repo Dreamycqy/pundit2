@@ -310,7 +310,7 @@ angular.module('Pundit2.ResourcePanel')
 
     $scope.updateSearch = function(term) {
         var caller = '';
-        if (typeof(term) !== 'undefined' && term.length > 2) {
+        if (typeof(term) !== 'undefined' /* && term.length > 2*/) {
             switch ($scope.type) {
                 case 'sub':
                     caller = 'subject';

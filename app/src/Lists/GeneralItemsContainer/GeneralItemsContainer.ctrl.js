@@ -78,68 +78,71 @@ angular.module('Pundit2.GeneralItemsContainer')
     };
 
     // sort button dropdown content
-    $scope.dropdownOrdering = [{
-        text: '名称升序', //Order by label asc
-        click: function() {
-            order = 'label';
-            $scope.reverse = false;
-            setLabelActive(0);
+    $scope.dropdownOrdering = [];//TODO hujiawei 删除名称排序功能
+    // $scope.dropdownOrdering = [{
+    //     text: '名称升序', //Order by label asc
+    //     click: function() {
+    //         order = 'label';
+    //         $scope.reverse = false;
+    //         setLabelActive(0);
+    //
+    //         var eventLabel = getHierarchyString();
+    //         eventLabel += "--sort--labelAsc";
+    //         Analytics.track('buttons', 'click', eventLabel);
+    //     },
+    //     isActive: order === 'label' && $scope.reverse === false
+    // }, {
+    //     text: '名称降序', //Order by label desc
+    //     click: function() {
+    //         order = 'label';
+    //         $scope.reverse = true;
+    //         setLabelActive(1);
+    //
+    //         var eventLabel = getHierarchyString();
+    //         eventLabel += "--sort--labelDesc";
+    //         Analytics.track('buttons', 'click', eventLabel);
+    //     },
+    //     isActive: order === 'label' && $scope.reverse === true
+    // }];
 
-            var eventLabel = getHierarchyString();
-            eventLabel += "--sort--labelAsc";
-            Analytics.track('buttons', 'click', eventLabel);
-        },
-        isActive: order === 'label' && $scope.reverse === false
-    }, {
-        text: '名称降序', //Order by label desc
-        click: function() {
-            order = 'label';
-            $scope.reverse = true;
-            setLabelActive(1);
+    //TODO hujiawei 删除类型排序功能
 
-            var eventLabel = getHierarchyString();
-            eventLabel += "--sort--labelDesc";
-            Analytics.track('buttons', 'click', eventLabel);
-        },
-        isActive: order === 'label' && $scope.reverse === true
-    }];
-
-    if (!$scope.isMyNotebooks && !$scope.isPredicates) {
-        $scope.dropdownOrdering.push({
-            text: '类型升序', //Order by type asc
-            click: function() {
-                //TODO: condition not in vocabularies
-                if (!$scope.isVocabularies && $scope.dropdownOrdering[2].disable) {
-                    return;
-                }
-                order = 'type';
-                $scope.reverse = false;
-                setLabelActive(2);
-
-                var eventLabel = getHierarchyString();
-                eventLabel += "--sort--typeAsc";
-                Analytics.track('buttons', 'click', eventLabel);
-            },
-            isActive: order === 'type' && $scope.reverse === false
-        });
-        $scope.dropdownOrdering.push({
-            text: '类型降序', //Order by type desc
-            click: function() {
-                //TODO: condition not in vocabularies
-                if (!$scope.isVocabularies && $scope.dropdownOrdering[3].disable) {
-                    return;
-                }
-                order = 'type';
-                $scope.reverse = true;
-                setLabelActive(3);
-
-                var eventLabel = getHierarchyString();
-                eventLabel += "--sort--typeDesc";
-                Analytics.track('buttons', 'click', eventLabel);
-            },
-            isActive: order === 'type' && $scope.reverse === true
-        });
-    }
+    // if (!$scope.isMyNotebooks && !$scope.isPredicates) {
+    //     $scope.dropdownOrdering.push({
+    //         text: '类型升序', //Order by type asc
+    //         click: function() {
+    //             //TODO: condition not in vocabularies
+    //             if (!$scope.isVocabularies && $scope.dropdownOrdering[2].disable) {
+    //                 return;
+    //             }
+    //             order = 'type';
+    //             $scope.reverse = false;
+    //             setLabelActive(2);
+    //
+    //             var eventLabel = getHierarchyString();
+    //             eventLabel += "--sort--typeAsc";
+    //             Analytics.track('buttons', 'click', eventLabel);
+    //         },
+    //         isActive: order === 'type' && $scope.reverse === false
+    //     });
+    //     $scope.dropdownOrdering.push({
+    //         text: '类型降序', //Order by type desc
+    //         click: function() {
+    //             //TODO: condition not in vocabularies
+    //             if (!$scope.isVocabularies && $scope.dropdownOrdering[3].disable) {
+    //                 return;
+    //             }
+    //             order = 'type';
+    //             $scope.reverse = true;
+    //             setLabelActive(3);
+    //
+    //             var eventLabel = getHierarchyString();
+    //             eventLabel += "--sort--typeDesc";
+    //             Analytics.track('buttons', 'click', eventLabel);
+    //         },
+    //         isActive: order === 'type' && $scope.reverse === true
+    //     });
+    // }
 
 
     // getter function used to build hierarchystring.
@@ -394,9 +397,10 @@ angular.module('Pundit2.GeneralItemsContainer')
             return ItemsExchange.isItemInContainer(tempWebPageItem, MyItems.options.container);
         };
 
-        $scope.dropdownOrdering.push({
-            "divider": true
-        });
+        //TODO hujiawei 删除这条分割线
+        // $scope.dropdownOrdering.push({
+        //     "divider": true
+        // });
         $scope.dropdownOrdering.push({
             text: '添加当前页面到我的记录中', //Add web page to My Items
             click: function() {
@@ -442,8 +446,6 @@ angular.module('Pundit2.GeneralItemsContainer')
             $scope.dropdownOrdering[$scope.dropdownOrdering.length - 1].disable = !MyPundit.isUserLogged() || isCurrentPageInMyItems();
         }, true);
 
-
-
         // add page to my items
         $scope.onClickAddPageToMyItems = function() {
             if (!MyPundit.isUserLogged()) {
@@ -472,6 +474,7 @@ angular.module('Pundit2.GeneralItemsContainer')
             }
         };
 
+        //TODO hujiawie 添加将搜索词新建item的功能
         var createItemFromSearch = function() {
             var values = {};
             //values = getPageMetadata();

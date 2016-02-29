@@ -1,16 +1,17 @@
 <div ng-controller="AnnomaticPanelCtrl" class="pnd-annomatic-container pnd-ignore">
     <div class="pnd-annomatic-content">
         <div class="pnd-btn-annomatic">
-            <button 
-                class="pnd-btn pnd-btn-link pnd-button-suggestion" 
+            <button
+                class="pnd-btn pnd-btn-link pnd-button-suggestion"
                 ng-click="getSuggestions()"
                 ng-show="!gotAnnotations || Annomatic.annotationNumber == 0"
                 ng-disabled="targets.length == 0">
-                    <span class="pnd-icon pnd-icon-file"></span> Scan Page
-            </button> 
+                    <span class="pnd-icon pnd-icon-file"></span>
+                    <!-- Scan Page -->扫描当前页面
+            </button>
 
-            <!-- <button 
-                class="btn btn-link pnd-button-suggestion" 
+            <!-- <button
+                class="btn btn-link pnd-button-suggestion"
                 ng-click="getSuggestionsArea()"
                 ng-show="Annomatic.area != null"
                 ng-disabled="targets.length == 0">
@@ -24,7 +25,9 @@
 
         <div ng-show="Annomatic.annotationNumber > 0" class="pnd-btn-annomatic">
             <div class="pnd-annomatic-count">
-                Suggestion: {{Annomatic.annotationNumber}} - Saved: {{Annomatic.ann.savedByNum.length}} <!-- - Rejected: {{Annomatic.ann.byState['removed'].length}} -->
+              推荐的标注数目: {{Annomatic.annotationNumber}} - 保存的标注数目: {{Annomatic.ann.savedByNum.length}} 
+                <!-- Suggestion: {{Annomatic.annotationNumber}} - Saved: {{Annomatic.ann.savedByNum.length}}  -->
+                <!-- - Rejected: {{Annomatic.ann.byState['removed'].length}} -->
             </div>
 
             <!-- TODO: fix filter -->
@@ -43,11 +46,12 @@
             <!-- <button class="btn btn-success pnd-button-save-review" ng-click="saveReview()">
                 Save
             </button> -->
-            <button 
-                class="pnd-btn pnd-button-start-review" 
+            <button
+                class="pnd-btn pnd-button-start-review"
                 ng-click="startReview()"
                 ng-hide="Annomatic.ann.savedByNum.length > 0">
-                Start review <!-- ({{Annomatic.currAnn}}/{{Annomatic.annotationNumber}}) -->
+                <!-- Start review  --> 开始审核推荐标注
+                <!-- ({{Annomatic.currAnn}}/{{Annomatic.annotationNumber}}) -->
             </button>
         </div>
 

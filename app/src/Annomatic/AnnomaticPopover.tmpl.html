@@ -5,14 +5,12 @@
         <!-- TODO: decide if we want the caret or not -->
         <span ng-show="!showDetails" class="pnd-icon pnd-icon-caret-right"></span>
         <span ng-show="showDetails" class="pnd-icon pnd-icon-caret-down"></span>
-        
+
         <span
             style="opacity: {{ann.byNum[num].confidence}}"
             title="Confidence {{ann.byNum[num].confidence}}"
             class="pnd-icon pnd-icon-th-large pnd-confidence"></span>
-
         {{ann.byNum[num].label}}
-
         <span class="pull-right pnd-icon pnd-icon-close" ng-click="hide($event)"></span>
     </h4>
 
@@ -21,7 +19,9 @@
             <div ng-show="showDetails" class="pnd-preview pnd-annomatic-popover-details clearfix">
                 <item-preview uri="{{ann.byNum[num].entities[currentEntity].uri}}" sticking="false"></item-preview>
             </div>
-            <button ng-if="multiLength > 0" ng-click="changeEntity()">Change selected entity</button>
+            <button ng-if="multiLength > 0" ng-click="changeEntity()">
+              Change selected entity
+            </button>
         </div>
         <div ng-if="!isMultiEntites">
             <div ng-show="showDetails" class="pnd-preview pnd-annomatic-popover-details clearfix">

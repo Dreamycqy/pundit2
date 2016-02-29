@@ -159,8 +159,8 @@ angular.module('Pundit2.Core')
         return deferred.promise;
     };
 
-    // TODO: why is empty the annomatic container in itemsExchange (also with delaytimer) when 
-    // we use deferred version of addItems?! 
+    // TODO: why is empty the annomatic container in itemsExchange (also with delaytimer) when
+    // we use deferred version of addItems?!
     var addAnnomaticItems = function(items) {
         if (!angular.isArray(items)) {
             items = [items];
@@ -398,9 +398,10 @@ angular.module('Pundit2.Core')
 
     // Gets the available targets or resources on the current page. They will most likely
     // be passed to the server looking for annotations.
+    // TODO hujiawei 得到页面中所有可以用来分析推荐标注的文本片段
     consolidation.getAvailableTargets = function(onlyNamedContents) {
-        var ret = [],
-            nc = XpointersHelper.options.namedContentClasses;
+        var ret = [], //uri的集合，css class类型在下面集合中并且包含about属性的html节点
+            nc = XpointersHelper.options.namedContentClasses;//Annotators目录下，所有可行的css class类型
 
         // The page URL is for xpointers out of named contents
         if (typeof(onlyNamedContents) === 'undefined' || onlyNamedContents !== true) {
