@@ -136,14 +136,15 @@ angular.module('Pundit2.Annotators')
     ih.removeDirective = function() {
         timeoutPromise = $timeout(function() {
             clear();
-        }, 100);
+        }, 3000);//TODO hujiawei 将事件设置为3秒，默认的是100ms 
     };
 
+    //TODO hujiawei
     ih.createItemFromImage = function(img) {
         var values = {};
 
         values.uri = getXpFromNode(img);
-        values.type = [NameSpace.types.image];
+        values.type = [NameSpace.types.image, NameSpace.fragments.imagePart];//TODO hujiawei 添加image-fragment类型
         values.description = img.src;
         values.image = img.src;
 
