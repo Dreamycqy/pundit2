@@ -78,71 +78,71 @@ angular.module('Pundit2.GeneralItemsContainer')
     };
 
     // sort button dropdown content
-    $scope.dropdownOrdering = [];//TODO hujiawei 删除名称排序功能
-    // $scope.dropdownOrdering = [{
-    //     text: '名称升序', //Order by label asc
-    //     click: function() {
-    //         order = 'label';
-    //         $scope.reverse = false;
-    //         setLabelActive(0);
-    //
-    //         var eventLabel = getHierarchyString();
-    //         eventLabel += "--sort--labelAsc";
-    //         Analytics.track('buttons', 'click', eventLabel);
-    //     },
-    //     isActive: order === 'label' && $scope.reverse === false
-    // }, {
-    //     text: '名称降序', //Order by label desc
-    //     click: function() {
-    //         order = 'label';
-    //         $scope.reverse = true;
-    //         setLabelActive(1);
-    //
-    //         var eventLabel = getHierarchyString();
-    //         eventLabel += "--sort--labelDesc";
-    //         Analytics.track('buttons', 'click', eventLabel);
-    //     },
-    //     isActive: order === 'label' && $scope.reverse === true
-    // }];
+    //$scope.dropdownOrdering = [];//TODO hujiawei 删除名称排序功能
+    $scope.dropdownOrdering = [{
+        text: '名称升序', //Order by label asc
+        click: function() {
+            order = 'label';
+            $scope.reverse = false;
+            setLabelActive(0);
+
+            var eventLabel = getHierarchyString();
+            eventLabel += "--sort--labelAsc";
+            Analytics.track('buttons', 'click', eventLabel);
+        },
+        isActive: order === 'label' && $scope.reverse === false
+    }, {
+        text: '名称降序', //Order by label desc
+        click: function() {
+            order = 'label';
+            $scope.reverse = true;
+            setLabelActive(1);
+
+            var eventLabel = getHierarchyString();
+            eventLabel += "--sort--labelDesc";
+            Analytics.track('buttons', 'click', eventLabel);
+        },
+        isActive: order === 'label' && $scope.reverse === true
+    }];
 
     //TODO hujiawei 删除类型排序功能
 
-    // if (!$scope.isMyNotebooks && !$scope.isPredicates) {
-    //     $scope.dropdownOrdering.push({
-    //         text: '类型升序', //Order by type asc
-    //         click: function() {
-    //             //TODO: condition not in vocabularies
-    //             if (!$scope.isVocabularies && $scope.dropdownOrdering[2].disable) {
-    //                 return;
-    //             }
-    //             order = 'type';
-    //             $scope.reverse = false;
-    //             setLabelActive(2);
-    //
-    //             var eventLabel = getHierarchyString();
-    //             eventLabel += "--sort--typeAsc";
-    //             Analytics.track('buttons', 'click', eventLabel);
-    //         },
-    //         isActive: order === 'type' && $scope.reverse === false
-    //     });
-    //     $scope.dropdownOrdering.push({
-    //         text: '类型降序', //Order by type desc
-    //         click: function() {
-    //             //TODO: condition not in vocabularies
-    //             if (!$scope.isVocabularies && $scope.dropdownOrdering[3].disable) {
-    //                 return;
-    //             }
-    //             order = 'type';
-    //             $scope.reverse = true;
-    //             setLabelActive(3);
-    //
-    //             var eventLabel = getHierarchyString();
-    //             eventLabel += "--sort--typeDesc";
-    //             Analytics.track('buttons', 'click', eventLabel);
-    //         },
-    //         isActive: order === 'type' && $scope.reverse === true
-    //     });
-    // }
+    if (!$scope.isMyNotebooks && !$scope.isPredicates) {
+        $scope.dropdownOrdering.push({
+            text: '类型升序', //Order by type asc
+            click: function() {
+                //TODO: condition not in vocabularies
+                if (!$scope.isVocabularies && $scope.dropdownOrdering[2].disable) {
+                    return;
+                }
+                order = 'type';
+                $scope.reverse = false;
+                setLabelActive(2);
+
+                var eventLabel = getHierarchyString();
+                eventLabel += "--sort--typeAsc";
+                Analytics.track('buttons', 'click', eventLabel);
+            },
+            isActive: order === 'type' && $scope.reverse === false
+        });
+        $scope.dropdownOrdering.push({
+            text: '类型降序', //Order by type desc
+            click: function() {
+                //TODO: condition not in vocabularies
+                if (!$scope.isVocabularies && $scope.dropdownOrdering[3].disable) {
+                    return;
+                }
+                order = 'type';
+                $scope.reverse = true;
+                setLabelActive(3);
+
+                var eventLabel = getHierarchyString();
+                eventLabel += "--sort--typeDesc";
+                Analytics.track('buttons', 'click', eventLabel);
+            },
+            isActive: order === 'type' && $scope.reverse === true
+        });
+    }
 
 
     // getter function used to build hierarchystring.
@@ -709,16 +709,27 @@ angular.module('Pundit2.GeneralItemsContainer')
                 });
             } else {
                 var itemArray = ContainerManager.getItemsArrays()[$scope.tabs.activeTab];
+                $scope.displayedItems = [];
                 //先插入与搜索词一模一样的
-                $scope.displayedItems = itemArray.filter(function(items) {
+                var eqItems = itemArray.filter(function(items) {
                     return items.label.toLowerCase() == str;
                 });
+                //$scope.displayedItems = $scope.displayedItems.concat(eqItems);
                 //然后插入正则匹配的前10项
                 var regItems = itemArray.filter(function(items) {
                     return items.label.toLowerCase().match(reg) !== null;
                 });
                 //TODO hujiawei $scope.displayedItems 为了界面的快速响应！但是不足在于没法显示之后的搜索结果！
-                regItems= regItems.slice(0,10);
+                regItems = regItems.slice(0,10);
+                //$scope.displayedItems = $scope.displayedItems.concat(regItems);
+                //如果eqItems中的元素没有出现在regItems中的话就添加到displayedItems
+                for (var i = 0; i < eqItems.length; i++) {//将regItems中和eqItems中相同的删除掉
+                  var index = regItems.indexOf(eqItems[i]);
+                  if (index < 0) {
+                      //delete regItems[index];
+                      $scope.displayedItems = $scope.displayedItems.concat(eqItems[i]);
+                  }
+                }
 
                 $scope.displayedItems = $scope.displayedItems.concat(regItems);
             }
