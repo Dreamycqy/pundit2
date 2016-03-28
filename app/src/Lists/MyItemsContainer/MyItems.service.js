@@ -85,6 +85,7 @@ angular.module("Pundit2.MyItemsContainer")
     var initContextualMenu = function() {
 
         // TODO: sanity checks on Config.modules.* ? Are they active? Think so??
+        //Config.modules.Annomatic.cMenuType
         var cMenuTypes = [
             Config.modules.TextFragmentHandler.cMenuType,
             Config.modules.PageItemsContainer.cMenuType,
@@ -95,10 +96,10 @@ angular.module("Pundit2.MyItemsContainer")
             Config.modules.SelectorsManager.cMenuType
         ];
 
-        ContextualMenu.addDivider({
-            priority: 97,
-            type: cMenuTypes
-        });
+        // ContextualMenu.addDivider({
+        //     priority: 97,
+        //     type: cMenuTypes
+        // });
 
         //添加搜索功能
         ContextualMenu.addAction({

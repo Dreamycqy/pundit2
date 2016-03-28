@@ -117,7 +117,7 @@ angular.module('Pundit2.Annomatic')
      * Default value:
      * <pre> property: 'http://purl.org/pundit/ont/oa#isRelatedTo' </pre>
      */
-    partialSelection: false   //TODO hujiawei 暂时禁止部分选择文本
+    partialSelection: true   //TODO hujiawei 暂时禁止部分选择文本
 })
 
 /**
@@ -128,7 +128,7 @@ angular.module('Pundit2.Annomatic')
  *
  * For the configuration of this module, see {@link #!/api/punditConfig/object/modules#Annomatic here}
  */
-.service('Annomatic', function(ANNOMATICDEFAULTS, BaseComponent, EventDispatcher, NameSpace,
+.service('Annomatic', function(ANNOMATICDEFAULTS, BaseComponent, EventDispatcher, NameSpace, Config,
     DataTXTResource, XpointersHelper, ItemsExchange, TextFragmentHandler, ImageHandler, TypesHelper,
     Toolbar, DBPediaSpotlightResource, Item, AnnotationsCommunication, NameEntityRecognitionResource,
     $rootScope, $timeout, $document, $window, $q, Consolidation, ContextualMenu, TextFragmentAnnotator) {
@@ -164,24 +164,42 @@ angular.module('Pundit2.Annomatic')
 
     annomatic.annotationNumber = 0;
 
-    if (annomatic.options.partialSelection) {
-        ContextualMenu.addAction({
-            type: [
-                annomatic.options.cMenuType
-            ],
-            name: 'showAllItems',
-            label: 'Search items in this area',
-            showIf: function() {
-                return true;
-            },
-            priority: 10,
-            action: function() {
-                Consolidation.wipe();
-                annomatic.getAnnotationByArea();
-                mouseCheck = false;
-            }
-        });
-    }
+    var initContextualMenu = function() {
+        var cMenuTypes = [
+            annomatic.options.cMenuType,
+            Config.modules.TextFragmentHandler.cMenuType,
+            Config.modules.PageItemsContainer.cMenuType,
+            Config.modules.MyItemsContainer.cMenuType,
+            Config.modules.CoreItemsContainer.cMenuType,
+            Config.modules.TextFragmentAnnotator.cMenuType,
+            Config.modules.ImageHandler.cMenuType,
+            Config.modules.SelectorsManager.cMenuType
+        ];
+
+        //TODO hujiawei 添加一些cmenutype使得这个action能够显示
+        if (annomatic.options.partialSelection) {
+            ContextualMenu.addAction({
+                type: cMenuTypes,
+                name: 'annomaticItem',
+                label: '辅助标注该文本',
+                showIf: function() {
+                    return true;
+                },
+                priority: 10,
+                action: function(item) {
+                    annomatic.log('##### annomaticItem #####', item);
+                    Consolidation.wipe();
+                    annomatic.getAnnotationByArea();
+                    mouseCheck = false;
+                }
+            });
+        }
+      };
+
+    // When all modules have been initialized, services are up, Config are setup etc..
+    EventDispatcher.addListener('Client.boot', function() {
+        initContextualMenu();
+    });
 
     // Tries to find the given array of DataTXT annotations in the child nodes of the
     // given node. Finding them might be a very delicate and fun dance!

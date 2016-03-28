@@ -398,7 +398,8 @@ angular.module('Pundit2.Core')
 
     // Gets the available targets or resources on the current page. They will most likely
     // be passed to the server looking for annotations.
-    // TODO hujiawei 得到页面中所有可以用来分析推荐标注的文本片段
+    // TODO hujiawei 得到页面中所有可以用来分析推荐标注的文本片段的节点，返回这些节点的about属性
+    // TODO hujiawei 这个方法除了在在AnnotationsCommunication中被调用了一次之外，另一处调用就是AnnomaticPanel中，所以可以放心复制这个方法，自定义逻辑
     consolidation.getAvailableTargets = function(onlyNamedContents) {
         var ret = [], //uri的集合，css class类型在下面集合中并且包含about属性的html节点
             nc = XpointersHelper.options.namedContentClasses;//Annotators目录下，所有可行的css class类型
@@ -428,6 +429,38 @@ angular.module('Pundit2.Core')
 
         return ret;
     };
+
+    //TODO hujiawei 上面的getAvailableTargets的副本，自定义了其中的逻辑，供AnnomaticPanel调用 -> 甚至可以没有这个方法
+    // consolidation.getAvailableAnnomaticTargets = function() {
+    //     var ret = [], //uri的集合，css class类型在下面集合中并且包含about属性的html节点
+    //         nc = ['author'];//XpointersHelper.options.namedContentClasses -> Annotators目录下，所有可行的css class类型
+    //         //TODO hujiawei 目前暂时只处理作者信息
+    //
+    //     // The page URL is for xpointers out of named contents
+    //     if (typeof(onlyNamedContents) === 'undefined' || onlyNamedContents !== true) {
+    //         var safeUrl = XpointersHelper.getSafePageContext();
+    //         ret.push(safeUrl);
+    //     }
+    //
+    //     // Look for named content: an element with a class listed in .namedContentClasses
+    //     // then get its about attribute
+    //     for (var l = nc.length; l--;) {
+    //         var className = nc[l],
+    //             nodes = angular.element('.' + className);
+    //
+    //         for (var n = nodes.length; n--;) {
+    //             // If it doesnt have the attribute, dont add it
+    //             var uri = angular.element(nodes[n]).attr('about');
+    //             // TODO: better checks of what we find inside about attributes? A lil regexp
+    //             // or we let do this at the server?
+    //             if (uri) {
+    //                 ret.push(uri);
+    //             }
+    //         }
+    //     }
+    //
+    //     return ret;
+    // };
 
     if (consolidation.options.preventDelay === undefined) {
         EventDispatcher.addListener('Pundit.preventDelay', function(e) {

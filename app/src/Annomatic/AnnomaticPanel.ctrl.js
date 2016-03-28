@@ -4,9 +4,12 @@ angular.module('Pundit2.Annomatic')
     TextFragmentAnnotator, XpointersHelper, AnnotationSidebar,
     $window, $q) {
 
-    $scope.targets = Consolidation.getAvailableTargets(true);
+    //TODO hujiawei targets是所有满足css class条件的div的about属性值的集合
+    //TODO hujiawei $scope.targets只是在方法getSuggestions中被调用了，所以可以方便地自定义逻辑
+    //$scope.targets = Consolidation.getAvailableTargets(true);
     $scope.gotAnnotations = false;
 
+    //TODO hujiawei 点击“扫描当前页面”调用的方法
     $scope.getSuggestions = function() {
 
         if ($scope.gotAnnotations) {
@@ -16,23 +19,32 @@ angular.module('Pundit2.Annomatic')
         Annomatic.hardReset();
         AnnotationSidebar.toggleLoading();
 
-        var nodes = [],
-            namedClasses = XpointersHelper.options.namedContentClasses,
-            selectors = [];
+        var nodes = [], namedClasses = ['author', 'notes', 'content', 'summary']; //XpointersHelper.options.namedContentClasses
+        var safeUrl = XpointersHelper.getSafePageContext();
 
-        for (var len = $scope.targets.length; len--;) {
-            selectors.push("[about='" + $scope.targets[len] + "']");
+        for (var l = namedClasses.length; l--;) {
+            var className = namedClasses[l];
+            //nodes.push(angular.element('.' + className));
+            angular.forEach(angular.element('.' + className), function(node) {
+                  nodes.push(node);
+            });
         }
-        selectors.join(',');
-        angular.forEach(angular.element(selectors.join(',')), function(node) {
-            for (var l = namedClasses.length; l--;) {
-                if (angular.element(node).hasClass(namedClasses[l])) {
-                    nodes.push(node);
-                    break;
-                }
-            }
-        });
 
+        // for (var len = $scope.targets.length; len--;) {
+        //     selectors.push("[about='" + $scope.targets[len] + "']");
+        // }
+        // selectors.join(',');
+        // //TODO hujiawei 旧逻辑是要求html节点有about属性，如果它的css class也满足条件的话那就加入这个节点
+        // angular.forEach(angular.element(selectors.join(',')), function(node) {
+        //     for (var l = namedClasses.length; l--;) {
+        //         if (angular.element(node).hasClass(namedClasses[l])) {
+        //             nodes.push(node);
+        //             break;
+        //         }
+        //     }
+        // });
+
+        //TODO hujiawei 前面的逻辑主要就是找到那些需要进行分析的html节点集合nodes
         Annomatic.log('Asking for annotations on ' + nodes.length + ' nodes: ', nodes);
 
         var promises = [];

@@ -208,7 +208,7 @@ angular.module('Pundit2.Core')
      * Default:
      * <pre> debugAllModules: false </pre>
      */
-    debugAllModules: false, //true, //hujiawei 避免去加载和ga相关的东西
+    debugAllModules: true, //false, true, //hujiawei 避免去加载和ga相关的东西
 
     /**
      * @module punditConfig

@@ -15,7 +15,8 @@
                             ng-class="{'pnd-active': isSuggestionsPanelActive()}"
                             ng-click="activateSuggestionsPanel()"
                             ng-disabled="isLoadingData || isLoading || isSuggestionsPanelActive()">
-                        Suggestions
+                        <!-- Suggestions -->
+                        辅助标注
                     </button><button type="button"
                             ng-click="activateAnnotationsPanel()"
                             ng-class="{
@@ -23,7 +24,8 @@
                             }"
                             class="pnd-btn pnd-btn-sidebar pnd-btn-fill-width"
                             ng-disabled="isLoading || isAnnotationsPanelActive()">
-                        Annotations ({{annotationsLength}}/{{allAnnotationsLength}})
+                        <!-- Annotations ({{annotationsLength}}/{{allAnnotationsLength}}) -->
+                        人工标注 ({{annotationsLength}}/{{allAnnotationsLength}})
                     </button>
                 </div>
 

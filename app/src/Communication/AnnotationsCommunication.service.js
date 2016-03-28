@@ -103,10 +103,10 @@ angular.module('Pundit2.Communication')
             setLoading(false);
             Consolidation.rejectConsolidateAll();
             EventDispatcher.sendEvent('Pundit.alert', {
-                title: 'Oops! Something went wrong',
+                title: '三元组更新失败', //Oops! Something went wrong
                 id: "ERROR",
                 timeout: null,
-                message: "Pundit couldn't save your annotation, please try again in 5 minutes."
+                message: "三元组更新失败，如果多次出现失败请删除之后重新添加三元组" //Pundit couldn't save your annotation, please try again in 5 minutes.
             });
             promise.reject();
             annotationsCommunication.log("Error during items editing of " + annID);

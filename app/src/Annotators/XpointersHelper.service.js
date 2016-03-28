@@ -142,8 +142,12 @@ angular.module('Pundit2.Annotators')
      * Default value:
      * <pre> namedContentClasses: ['pundit-content'] </pre>
      */
-    namedContentClasses: ['pundit-content', 'summary', 'content'], //TODO hujiawei 包含这个css class的文本片段会用来分析推荐标注
-    //TODO hujiawei 'summary', 'content' 是加上的
+    namedContentClasses: ['pundit-content'], //'summary', 'content', 'author', 'notes'
+    //TODO hujiawei 包含这个css class的文本片段会用来分析推荐标注
+    //TODO hujiawei 'summary', 'content', 'author', 'notes'是加上的，对于语文学科来说这些是常见的添加的css class
+    //TODO hujiawei 删除 'pundit-content',
+    //TODO hujiawei 暂时只处理 author 作者这个数据
+    //TODO hujiawei 注意，这里保持了原来的数据并没有修改，因为Consolidation中的实现方式我复制了getAvailableTargets方法，尽可能维持原有逻辑不变
 
     /**
      * @module punditConfig
