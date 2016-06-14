@@ -28,11 +28,18 @@ sudo npm install -g bower
 npm install
 ```
 
+**建议版本**
+
+nodejs： 0.12.2    
+npm：2.7.4    
+grunt：0.4.5    
+bower： 1.3.12
+
 (2) 开发 (develop)  
 日常开发测试可以使用 **grunt dev** 在本地查看效果  
 
 (3) 编译 (build)  
-正式编译执行 grunt build命令，最终生成的js和css文件存放在build目录下  
+正式编译执行 `grunt build` 命令，最终生成的js和css文件存放在build目录下  
 
 ```
 css/*ver*.pundit.css
@@ -48,3 +55,8 @@ scripts/*ver*.pundit2.js
 (2) 如果需要打开debug输出，修改 app/src/Core/PUNDITDEFAULTCONF.constant.js文件中的debugAllModules，设置为true即可，如果想要细看某个模块的输出，那就看打开对应模块的debug即可；  
 (3) 关于系统能进行哪些配置可以查看app/src/Core/PUNDITDEFAULTCONF.constant.js文件，或者访问http://dev.thepund.it/download/client/last-beta/docs/index.html#!/api/punditConfig   
 (4) 在开发测试阶段，如果要添加新的example，可以在app/examples/src目录下新建一个html文件，并要求包含header.inc和footer.inc等相关的引用，建议直接复制某个html进来。另外，如果开发过程中添加了新的模块，而这个新的模块要求界面导入新的js文件的话，要求将需要导入的js文件放入到_pundit.inc文件中。  
+
+
+
+
+
